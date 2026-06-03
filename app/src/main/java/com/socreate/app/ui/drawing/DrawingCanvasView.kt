@@ -373,6 +373,7 @@ class DrawingCanvasView @JvmOverloads constructor(
                     )
                     return true
                 }
+            }
 
             MotionEvent.ACTION_POINTER_UP -> {
                 if (isPanning && event.pointerCount <= 2) {
@@ -402,7 +403,6 @@ class DrawingCanvasView @JvmOverloads constructor(
                 isPanning = false
                 longPressTriggered = false
                 return true
-            }
             }
 
             MotionEvent.ACTION_MOVE -> {

@@ -1114,3 +1114,4 @@ object DrawingReducer : Reducer<DrawingState, DrawingIntent> {
             else -> StateTransition(currentState)
         }
     }
+}
