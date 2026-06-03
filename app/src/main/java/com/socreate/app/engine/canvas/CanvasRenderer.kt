@@ -1,10 +1,27 @@
 package com.socreate.app.engine.canvas
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Matrix
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
+import android.graphics.RectF
 import android.view.MotionEvent
 import android.view.View
-import com.socreate.app.core.model.*
+import com.socreate.app.core.model.Bounds
+import com.socreate.app.core.model.Canvas as ProjectCanvas
+import com.socreate.app.core.model.DrawingIntent
+import com.socreate.app.core.model.DrawingState
+import com.socreate.app.core.model.DrawingTool
+import com.socreate.app.core.model.ExtendedCanvas
+import com.socreate.app.core.model.Layer
+import com.socreate.app.core.model.LayerStack
+import com.socreate.app.core.model.Selection
+import com.socreate.app.core.model.Stroke
+import com.socreate.app.core.model.StrokePoint
+import com.socreate.app.core.model.SymmetryConfig
+import com.socreate.app.core.model.TabS10Plus
 import com.socreate.app.engine.brush.BrushEngine
 import com.socreate.app.engine.brush.BrushEngineState
 import com.socreate.app.engine.layer.LayerCompositor
@@ -26,7 +43,7 @@ import kotlinx.coroutines.channels.Channel
  */
 class CanvasRenderer(
     private val context: Context,
-    private val canvasConfig: Canvas = Canvas.DEFAULT
+    private val canvasConfig: ProjectCanvas = ProjectCanvas.DEFAULT
 ) {
     // Engines
     private val strokeRenderer = StrokeRenderer()

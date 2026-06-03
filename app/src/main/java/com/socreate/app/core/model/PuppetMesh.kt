@@ -2,6 +2,7 @@ package com.socreate.app.core.model
 
 import kotlinx.serialization.Serializable
 import java.util.UUID
+import kotlin.math.sqrt
 
 /**
  * Puppet Mesh Tools — advanced mesh-based puppet deformation system.

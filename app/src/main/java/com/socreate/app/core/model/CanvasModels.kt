@@ -157,13 +157,6 @@ enum class EasingType {
     SPRING, BOUNCE, ELASTIC, CUSTOM
 }
 
-@Serializable
-data class OnionSkinConfig(
-    val isEnabled: Boolean = false,
-    val framesBefore: Int = 2,
-    val framesAfter: Int = 1,
-    val opacityBefore: Float = 0.3f,
-    val opacityAfter: Float = 0.2f,
-    val tintBefore: SoCreateColor = SoCreateColor.RED.withAlpha(0.3f),
-    val tintAfter: SoCreateColor = SoCreateColor.GREEN.withAlpha(0.2f)
-)
+// OnionSkinConfig has been moved to AnimationAdvanced.kt with enhanced features
+
+

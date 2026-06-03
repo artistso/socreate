@@ -50,7 +50,7 @@ class GoogleAuthHandler(private val context: Context) {
          * Only requested when user explicitly tries to share to YouTube.
          * NOT requested at sign-in time to minimize permissions.
          */
-        val YOUTUBE_SCOPE = Scope(Scopes.YOUTUBE_UPLOAD)
+        val YOUTUBE_SCOPE = Scope("https://www.googleapis.com/auth/youtube.upload")
 
         /** Basic profile scope — name and photo only */
         val PROFILE_SCOPE = Scope(Scopes.PROFILE)
