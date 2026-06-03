@@ -37,10 +37,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // NDK config kept but external native build disabled until C++ renderer is ready
-        ndk {
-            abiFilters += listOf("arm64-v8a")
-        }
+        // Use splits.abi for ABI filtering instead of ndk.abiFilters
+        // (having both causes "Conflicting configuration" error)
     }
 
     signingConfigs {
