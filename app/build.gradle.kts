@@ -9,8 +9,6 @@ plugins {
 }
 
 // ─── Signing Configuration ──────────────────────────────────────────────
-// For Play Store submission, you'll create a keystore file.
-// Store keystore.properties in your project root (NEVER commit to git).
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 val keystoreProperties = Properties()
 if (keystorePropertiesFile.exists()) {
@@ -23,12 +21,11 @@ android {
 
     defaultConfig {
         applicationId = "com.socreate.app"
-        minSdk = 34              // Android 14+ — Galaxy Tab S10+
+        minSdk = 34
         targetSdk = 35
         versionCode = 2
         versionName = "1.1.0"
 
-        // Developer branding in build config
         buildConfigField("String", "DEVELOPER_NAME", "\"Steven Michael Allen Owens\"")
         buildConfigField("String", "DEVELOPER_HANDLE", "\"@SoQuarky\"")
         buildConfigField("String", "COMPANY_NAME", "\"AdventuresInDrawing\"")
@@ -40,20 +37,12 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // ARM64 only — Tab S10+ is MediaTek Dimensity 9300+ (ARMv8.2-A)
+        // NDK config kept but external native build disabled until C++ renderer is ready
         ndk {
             abiFilters += listOf("arm64-v8a")
         }
-
-        externalNativeBuild {
-            cmake {
-                cppFlags += "-std=c++17"
-                arguments("-DANDROID_STL=c++_shared")
-            }
-        }
     }
 
-    // ─── Signing Configs ────────────────────────────────────────────────
     signingConfigs {
         create("release") {
             if (keystoreProperties.containsKey("storeFile")) {
@@ -99,20 +88,28 @@ android {
         jvmTarget = "17"
     }
 
-    externalNativeBuild {
-        cmake {
-            path = file("src/main/cpp/CMakeLists.txt")
-            version = "3.22.1"
-        }
-    }
+    // Native build disabled until GPU renderer is implemented
+    // externalNativeBuild {
+    //     cmake {
+    //         path = file("src/main/cpp/CMakeLists.txt")
+    //         version = "3.22.1"
+    //     }
+    // }
 
-    // Generate different APKs per ABI (smaller downloads)
     splits {
         abi {
             isEnable = true
             reset()
             include("arm64-v8a")
             isUniversalApk = false
+        }
+    }
+
+    // Temporarily exclude native build until C++ code is ready
+    // This prevents build failures from the CMake stub
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
 }
@@ -148,7 +145,7 @@ dependencies {
     // DataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
-    // Hilt
+    // Hilt — DI framework
     implementation("com.google.dagger:hilt-android:2.49")
     ksp("com.google.dagger:hilt-compiler:2.49")
 
@@ -159,28 +156,14 @@ dependencies {
     // Image loading
     implementation("io.coil-kt:coil:2.5.0")
 
-    // ─── Google Sign-In (user ↔ Google only, developer never sees credentials) ─
+    // Google Sign-In (user ↔ Google only; developer never sees credentials)
     implementation("com.google.android.gms:play-services-auth:20.7.0")
 
-    // ─── Google Play Services Base ──────────────────────────────────────
-    implementation("com.google.android.gms:play-services-base:18.3.0")
-
-    // ─── YouTube Data API v3 (client library) ──────────────────────────
-    implementation("com.google.apis:google-api-services-youtube:v3-rev20231204-2.0.0")
-    implementation("com.google.http-client:google-http-client-android:1.43.3")
-    implementation("com.google.api-client:google-api-client-android:2.2.0")
-
-    // ─── OkHttp for network requests (artistso.com, GitHub API) ────────
+    // OkHttp for network requests (artistso.com API, GitHub crash reports)
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
-    // ─── Gson for API JSON parsing ─────────────────────────────────────
-    implementation("com.google.code.gson:gson:2.10.1")
-
-    // ─── WebView for artistso.com content ──────────────────────────────
+    // WebView for artistso.com content
     implementation("androidx.webkit:webkit:1.9.0")
-
-    // ─── Browser intent support ────────────────────────────────────────
-    implementation("androidx.browser:browser:1.7.0")
 
     // Testing
     testImplementation("junit:junit:4.13.2")
