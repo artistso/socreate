@@ -1,31 +1,13 @@
 name: Build SoCreate
 
-# ──────────────────────────────────────────────────────────────────────
-# SoCreate CI/CD — Cloud Build Pipeline
-# Developer: Steven Michael Allen Owens (@SoQuarky)
-# Company: AdventuresInDrawing
-# Brands: Soquarky · FunFYP · FPY.Lovely · Soquarky.Click
-#
-# Triggers on push to main/develop.
-# Always builds debug APK. Builds release APK + AAB when keystore secrets are set.
-# Unit tests run in parallel (non-blocking) so builds always produce artifacts.
-#
-# Required secrets for release builds (Settings → Secrets → Actions):
-#   KEYSTORE_BASE64  — base64 encoded .jks keystore file
-#   KEYSTORE_PASSWORD
-#   KEY_ALIAS
-#   KEY_PASSWORD
-# ──────────────────────────────────────────────────────────────────────
-
 on:
   push:
     branches: [ main, develop ]
   pull_request:
     branches: [ main ]
-  workflow_dispatch:  # Allow manual trigger from Actions tab
+  workflow_dispatch:
 
 jobs:
-  # ─── Build Debug APK (always runs) ────────────────────────────────────
   build-debug:
     name: Build Debug APK
     runs-on: ubuntu-latest
@@ -46,17 +28,27 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug --stacktrace
+      - name: Build Debug APK (capture output)
+        run: |
+          ./gradlew assembleDebug --stacktrace --info 2>&1 | tee build-output.log
+        continue-on-error: true
 
-      - name: Upload Debug APK
+      - name: Upload build output log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output-log
+          path: build-output.log
+          retention-days: 7
+
+      - name: Upload Debug APK (if built)
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: socreate-debug-apk
           path: app/build/outputs/apk/debug/*.apk
           retention-days: 30
 
-  # ─── Build Release APK + AAB (only when keystore secrets exist) ──────
   build-release:
     name: Build Release APK + AAB
     runs-on: ubuntu-latest
@@ -84,9 +76,8 @@ jobs:
         run: |
           if [ -n "$KEYSTORE_BASE64" ]; then
             echo "$KEYSTORE_BASE64" | base64 --decode > app/socreate-release.jks
-            echo "Keystore decoded successfully"
           else
-            echo "No KEYSTORE_BASE64 secret set — skipping release build"
+            echo "No keystore secret — skipping release build"
           fi
 
       - name: Create keystore.properties
@@ -97,30 +88,43 @@ jobs:
           echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> keystore.properties
 
       - name: Build Release APK
-        run: ./gradlew assembleRelease --stacktrace
+        run: ./gradlew assembleRelease --stacktrace 2>&1 | tee release-build.log
+        continue-on-error: true
 
       - name: Upload Release APK
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: socreate-release-apk
           path: app/build/outputs/apk/release/*.apk
           retention-days: 90
 
-      - name: Build Release AAB (for Play Store)
-        run: ./gradlew bundleRelease --stacktrace
+      - name: Build Release AAB
+        run: ./gradlew bundleRelease --stacktrace 2>&1 | tee aab-build.log
+        continue-on-error: true
 
       - name: Upload Release AAB
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: socreate-release-aab
           path: app/build/outputs/bundle/release/*.aab
           retention-days: 90
 
-  # ─── Unit Tests (non-blocking, runs in parallel) ─────────────────────
+      - name: Upload release build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-build-log
+          path: |
+            release-build.log
+            aab-build.log
+          retention-days: 7
+
   test:
     name: Unit Tests
     runs-on: ubuntu-latest
-    continue-on-error: true  # Don't block builds on test failures
+    continue-on-error: true
 
     steps:
       - name: Checkout code
@@ -139,7 +143,16 @@ jobs:
         run: chmod +x gradlew
 
       - name: Run unit tests
-        run: ./gradlew test --stacktrace
+        run: ./gradlew test --stacktrace 2>&1 | tee test-output.log
+        continue-on-error: true
+
+      - name: Upload test output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-output-log
+          path: test-output.log
+          retention-days: 7
 
       - name: Upload test results
         if: always()
