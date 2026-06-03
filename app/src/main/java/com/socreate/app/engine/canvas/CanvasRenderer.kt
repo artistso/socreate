@@ -2,6 +2,9 @@ package com.socreate.app.engine.canvas
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Canvas as AndroidCanvas
+import android.graphics.Color
+import android.graphics.DashPathEffect
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.PorterDuff
@@ -10,6 +13,7 @@ import android.graphics.RectF
 import android.view.MotionEvent
 import android.view.View
 import com.socreate.app.core.model.Bounds
+import com.socreate.app.core.model.Brush
 import com.socreate.app.core.model.Canvas as ProjectCanvas
 import com.socreate.app.core.model.DrawingIntent
 import com.socreate.app.core.model.DrawingState
@@ -18,10 +22,13 @@ import com.socreate.app.core.model.ExtendedCanvas
 import com.socreate.app.core.model.Layer
 import com.socreate.app.core.model.LayerStack
 import com.socreate.app.core.model.Selection
+import com.socreate.app.core.model.SelectionType
+import com.socreate.app.core.model.SoCreateColor
 import com.socreate.app.core.model.Stroke
 import com.socreate.app.core.model.StrokePoint
 import com.socreate.app.core.model.SymmetryConfig
 import com.socreate.app.core.model.TabS10Plus
+import com.socreate.app.core.model.ToolType
 import com.socreate.app.engine.brush.BrushEngine
 import com.socreate.app.engine.brush.BrushEngineState
 import com.socreate.app.engine.layer.LayerCompositor
@@ -55,11 +62,11 @@ class CanvasRenderer(
 
     // Layer bitmaps (layer ID → Bitmap)
     private val layerBitmaps = mutableMapOf<String, Bitmap>()
-    private val layerCanvases = mutableMapOf<String, Canvas>()
+    private val layerCanvases = mutableMapOf<String, AndroidCanvas>()
 
     // Display bitmap
     private var displayBitmap: Bitmap? = null
-    private var displayCanvas: Canvas? = null
+    private var displayCanvas: AndroidCanvas? = null
 
     // Viewport
     private var viewportWidth = 0
@@ -96,7 +103,7 @@ class CanvasRenderer(
             viewWidth, viewHeight,
             Bitmap.Config.ARGB_8888
         )
-        displayCanvas = Canvas(displayBitmap!!)
+        displayCanvas = AndroidCanvas(displayBitmap!!)
 
         ensureLayerBitmaps(currentState.layerStack)
         fullRedrawNeeded = true
@@ -129,7 +136,7 @@ class CanvasRenderer(
      */
     private fun renderFrame() {
         val display = displayBitmap ?: return
-        val canvas = displayCanvas ?: return
+        val canvas: AndroidCanvas? = displayCanvas ?: return
 
         canvas.save()
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
@@ -299,7 +306,7 @@ class CanvasRenderer(
         return cx to cy
     }
 
-    private fun drawCheckerboard(canvas: Canvas) {
+    private fun drawCheckerboard(canvas: AndroidCanvas) {
         val tileSize = 16
         val width = canvasConfig.width
         val height = canvasConfig.height
@@ -318,7 +325,7 @@ class CanvasRenderer(
         }
     }
 
-    private fun drawSelectionBounds(canvas: Canvas, selection: Selection) {
+    private fun drawSelectionBounds(canvas: AndroidCanvas, selection: Selection) {
         val paint = Paint().apply {
             style = Paint.Style.STROKE
             strokeWidth = 2f / currentState.zoom
@@ -343,7 +350,7 @@ class CanvasRenderer(
     /**
      * Draw the visible canvas boundary when using extended canvas (FlipaClip).
      */
-    private fun drawCanvasBounds(canvas: Canvas, ec: ExtendedCanvas) {
+    private fun drawCanvasBounds(canvas: AndroidCanvas, ec: ExtendedCanvas) {
         val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             style = Paint.Style.STROKE
             strokeWidth = 2f / currentState.zoom
@@ -394,7 +401,7 @@ class CanvasRenderer(
                     canvasConfig.width, canvasConfig.height, config
                 )
                 layerBitmaps[layer.id] = bitmap
-                layerCanvases[layer.id] = Canvas(bitmap)
+                layerCanvases[layer.id] = AndroidCanvas(bitmap)
             }
         }
 
