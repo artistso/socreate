@@ -1,0 +1,31 @@
+{
+  "name": "SoCreate Android Dev",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "features": {
+    "ghcr.io/akhildevelops/devcontainer-features/android-cli:0.1.0": {
+      "VERSION": "11029144",
+      "BUILD_TOOLS": "35.0.0",
+      "PLATFORM": "android-35",
+      "NDK": "27.2.12479018",
+      "CMAKE": "3.22.1"
+    }
+  },
+  "postCreateCommand": "sudo chmod +x gradlew && java -version && echo 'ANDROID_HOME='$ANDROID_HOME",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "mathiasfrohlich.Kotlin",
+        "vscjava.vscode-java-pack",
+        "vscjava.vscode-gradle",
+        "GitHub.copilot",
+        "GitHub.copilot-chat"
+      ]
+    }
+  },
+  "remoteUser": "codespace",
+  "hostRequirements": {
+    "cpus": 4,
+    "memory": "16gb",
+    "storage": "32gb"
+  }
+}
