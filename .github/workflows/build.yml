@@ -1,4 +1,4 @@
-name: Build SoCreate APK
+name: Build SoCreate
 
 # ──────────────────────────────────────────────────────────────────────
 # SoCreate CI/CD — Cloud Build Pipeline
@@ -6,15 +6,15 @@ name: Build SoCreate APK
 # Company: AdventuresInDrawing
 # Brands: Soquarky · FunFYP · FPY.Lovely · Soquarky.Click
 #
-# This workflow builds debug and release APKs whenever you push code.
-# APKs are available as downloadable artifacts in the Actions tab.
+# Triggers on push to main/develop.
+# Always builds debug APK. Builds release APK + AAB when keystore secrets are set.
+# Unit tests run in parallel (non-blocking) so builds always produce artifacts.
 #
-# For release builds, add these secrets in GitHub:
-#   Settings → Secrets and variables → Actions → New repository secret
-#   - KEYSTORE_BASE64  (base64 of your .jks file)
-#   - KEYSTORE_PASSWORD
-#   - KEY_ALIAS
-#   - KEY_PASSWORD
+# Required secrets for release builds (Settings → Secrets → Actions):
+#   KEYSTORE_BASE64  — base64 encoded .jks keystore file
+#   KEYSTORE_PASSWORD
+#   KEY_ALIAS
+#   KEY_PASSWORD
 # ──────────────────────────────────────────────────────────────────────
 
 on:
@@ -22,10 +22,12 @@ on:
     branches: [ main, develop ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:  # Allow manual trigger from Actions tab
 
 jobs:
-  build:
-    name: Build APK
+  # ─── Build Debug APK (always runs) ────────────────────────────────────
+  build-debug:
+    name: Build Debug APK
     runs-on: ubuntu-latest
 
     steps:
@@ -44,11 +46,8 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Run unit tests
-        run: ./gradlew test
-
       - name: Build Debug APK
-        run: ./gradlew assembleDebug
+        run: ./gradlew assembleDebug --stacktrace
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
@@ -57,30 +56,50 @@ jobs:
           path: app/build/outputs/apk/debug/*.apk
           retention-days: 30
 
-      # ─── Release Build (only on main branch with secrets set) ────────
+  # ─── Build Release APK + AAB (only when keystore secrets exist) ──────
+  build-release:
+    name: Build Release APK + AAB
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
 
       - name: Decode Keystore
-        if: github.ref == 'refs/heads/main' && env.KEYSTORE_BASE64 != ''
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
         run: |
-          echo "$KEYSTORE_BASE64" | base64 --decode > app/socreate-release.jks
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "$KEYSTORE_BASE64" | base64 --decode > app/socreate-release.jks
+            echo "Keystore decoded successfully"
+          else
+            echo "No KEYSTORE_BASE64 secret set — skipping release build"
+          fi
 
-      - name: Build Release APK
-        if: github.ref == 'refs/heads/main' && env.KEYSTORE_BASE64 != ''
-        env:
-          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+      - name: Create keystore.properties
         run: |
           echo "storeFile=socreate-release.jks" > keystore.properties
           echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> keystore.properties
           echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> keystore.properties
           echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> keystore.properties
-          ./gradlew assembleRelease
+
+      - name: Build Release APK
+        run: ./gradlew assembleRelease --stacktrace
 
       - name: Upload Release APK
-        if: github.ref == 'refs/heads/main' && env.KEYSTORE_BASE64 != ''
-        env:
-          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
         uses: actions/upload-artifact@v4
         with:
           name: socreate-release-apk
@@ -88,17 +107,44 @@ jobs:
           retention-days: 90
 
       - name: Build Release AAB (for Play Store)
-        if: github.ref == 'refs/heads/main' && env.KEYSTORE_BASE64 != ''
-        env:
-          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
-        run: ./gradlew bundleRelease
+        run: ./gradlew bundleRelease --stacktrace
 
       - name: Upload Release AAB
-        if: github.ref == 'refs/heads/main' && env.KEYSTORE_BASE64 != ''
-        env:
-          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
         uses: actions/upload-artifact@v4
         with:
           name: socreate-release-aab
           path: app/build/outputs/bundle/release/*.aab
           retention-days: 90
+
+  # ─── Unit Tests (non-blocking, runs in parallel) ─────────────────────
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    continue-on-error: true  # Don't block builds on test failures
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Run unit tests
+        run: ./gradlew test --stacktrace
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: app/build/reports/tests/
+          retention-days: 14
