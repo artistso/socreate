@@ -1,0 +1,44 @@
+# SoCreate .gitignore
+
+# ─── NEVER commit these ─────────────────────────────────────────────────
+keystore.properties
+*.jks
+*.keystore
+*.pem
+*.p12
+*.p8
+google-play-service-account.json
+
+# ─── Build outputs ───────────────────────────────────────────────────────
+/build/
+/app/build/
+/out/
+*.apk
+*.aab
+*.dex
+*.class
+
+# ─── IDE ─────────────────────────────────────────────────────────────────
+.idea/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+Thumbs.db
+
+# ─── Gradle ──────────────────────────────────────────────────────────────
+.gradle/
+local.properties
+
+# ─── Generated ───────────────────────────────────────────────────────────
+*.generated
+*.log
+
+# ─── OS ──────────────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

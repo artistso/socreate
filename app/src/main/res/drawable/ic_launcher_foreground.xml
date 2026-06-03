@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- SoCreate "S" stylized logo -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,18 C40,18 30,25 30,36 C30,50 54,48 54,58 C54,65 48,68 42,68 C36,68 30,64 28,58 L28,72 C32,76 40,80 50,80 C64,80 74,72 74,60 C74,46 50,48 50,38 C50,32 54,28 60,28 C66,28 72,32 74,38 L76,24 C72,20 64,18 54,18 Z" />
+    <!-- Small pen nib accent -->
+    <path
+        android:fillColor="#E94560"
+        android:pathData="M78,72 L82,66 L86,72 L82,78 Z" />
+</vector>

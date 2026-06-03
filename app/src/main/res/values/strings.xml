@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SoCreate</string>
+    <string name="app_tagline">Animate Your Imagination</string>
+    <string name="app_developer">Soquarky</string>
+    <string name="app_company">AdventuresInDrawing</string>
+    <string name="app_copyright">© 2026 Steven Michael Allen Owens</string>
+
+    <!-- About Screen -->
+    <string name="about_developer">Developed by Steven Michael Allen Owens</string>
+    <string name="about_handle">@SoQuarky</string>
+    <string name="about_brands">Soquarky · FunFYP · FPY.Lovely · Soquarky.Click</string>
+    <string name="about_umbrella">An AdventuresInDrawing production</string>
+
+    <!-- URLs -->
+    <string name="url_website">https://soquarky.click</string>
+    <string name="url_support">support@soquarky.click</string>
+    <string name="url_privacy">https://soquarky.click/privacy</string>
+    <string name="url_terms">https://soquarky.click/terms</string>
+    <string name="url_artistso">https://artistso.com</string>
+    <string name="url_crash_email">soquarky@artistso.com</string>
+
+    <!-- Tools -->
+    <string name="tool_brush">Brush</string>
+    <string name="tool_eraser">Eraser</string>
+    <string name="tool_smudge">Smudge</string>
+    <string name="tool_select">Selection</string>
+    <string name="tool_lasso">Lasso</string>
+    <string name="tool_transform">Transform</string>
+    <string name="tool_warp">Warp</string>
+    <string name="tool_flood_fill">Flood Fill</string>
+    <string name="tool_eyedropper">Eyedropper</string>
+    <string name="tool_text">Text</string>
+    <string name="tool_shape">Shape</string>
+    <string name="tool_symmetry">Symmetry</string>
+    <string name="tool_liquify">Liquify</string>
+    <string name="tool_reference">Reference</string>
+    <string name="tool_puppet_mesh">Puppet Mesh</string>
+    <string name="tool_mesh_select">Select Pin</string>
+    <string name="tool_mesh_move">Move Pin</string>
+    <string name="tool_mesh_add_pin">Add Pin</string>
+    <string name="tool_mesh_add_bone">Add Bone</string>
+    <string name="tool_mesh_pose">Pose</string>
+
+    <!-- Panels -->
+    <string name="panel_brushes">Brushes</string>
+    <string name="panel_colors">Colors</string>
+    <string name="panel_layers">Layers</string>
+    <string name="panel_settings">Settings</string>
+    <string name="panel_audio">Audio</string>
+    <string name="panel_animation">Animation</string>
+    <string name="panel_timeline">Timeline</string>
+
+    <!-- Actions -->
+    <string name="action_undo">Undo</string>
+    <string name="action_redo">Redo</string>
+    <string name="action_save">Save</string>
+    <string name="action_export">Export</string>
+    <string name="action_clear">Clear Canvas</string>
+    <string name="action_new_layer">New Layer</string>
+    <string name="action_delete_layer">Delete Layer</string>
+    <string name="action_merge_down">Merge Down</string>
+    <string name="action_duplicate_layer">Duplicate Layer</string>
+    <string name="action_share_youtube">Share to YouTube</string>
+
+    <!-- Sliders -->
+    <string name="slider_size">Size</string>
+    <string name="slider_opacity">Opacity</string>
+    <string name="slider_smoothing">Smoothing</string>
+
+    <!-- Brush Categories -->
+    <string name="brush_category_sketching">Sketching</string>
+    <string name="brush_category_inking">Inking</string>
+    <string name="brush_category_painting">Painting</string>
+    <string name="brush_category_calligraphy">Calligraphy</string>
+    <string name="brush_category_textures">Textures</string>
+    <string name="brush_category_airbrushing">Airbrushing</string>
+    <string name="brush_category_charcoal">Charcoal</string>
+    <string name="brush_category_markers">Markers</string>
+    <string name="brush_category_custom">Custom</string>
+    <string name="brush_category_animation">Animation</string>
+
+    <!-- Gallery -->
+    <string name="gallery_title">Gallery</string>
+    <string name="gallery_new_project">New Project</string>
+    <string name="gallery_import">Import</string>
+
+    <!-- Export -->
+    <string name="export_format_png">PNG</string>
+    <string name="export_format_jpeg">JPEG</string>
+    <string name="export_format_psd">PSD</string>
+    <string name="export_format_mp4">MP4 (Video)</string>
+    <string name="export_format_gif">GIF</string>
+
+    <!-- Symmetry -->
+    <string name="symmetry_vertical">Vertical</string>
+    <string name="symmetry_horizontal">Horizontal</string>
+    <string name="symmetry_quadrant">Quadrant</string>
+    <string name="symmetry_radial">Radial</string>
+    <string name="symmetry_rotational">Rotational</string>
+    <string name="symmetry_mandala">Mandala</string>
+    <string name="symmetry_custom">Custom Angle</string>
+
+    <!-- Gestures -->
+    <string name="gesture_two_finger_undo">2-finger tap to undo</string>
+    <string name="gesture_three_finger_redo">3-finger tap to redo</string>
+    <string name="gesture_long_press_eyedropper">Long press for eyedropper</string>
+
+    <!-- Keyboard Shortcuts -->
+    <string name="shortcut_undo">Ctrl+Z</string>
+    <string name="shortcut_redo">Ctrl+Shift+Z</string>
+    <string name="shortcut_save">Ctrl+S</string>
+    <string name="shortcut_brush">B</string>
+    <string name="shortcut_eraser">E</string>
+
+    <!-- Content Descriptions -->
+    <string name="desc_drawing_canvas">Drawing canvas area</string>
+    <string name="desc_color_preview">Current color preview</string>
+    <string name="desc_brush_preview">Current brush preview</string>
+
+    <!-- ═══ NEW: Color Themes ═══ -->
+    <string name="theme_title">Color Theme</string>
+    <string name="theme_default_dark">SoCreate Dark</string>
+    <string name="theme_midnight_ocean">Midnight Ocean</string>
+    <string name="theme_crimson_studio">Crimson Studio</string>
+    <string name="theme_forest_canvas">Forest Canvas</string>
+    <string name="theme_amoled_black">AMOLED Black</string>
+    <string name="theme_paper_white">Paper White</string>
+    <string name="theme_sunset_gradient">Sunset Gradient</string>
+    <string name="theme_galaxy_purple">Galaxy Purple</string>
+    <string name="theme_custom">Custom Theme</string>
+    <string name="theme_import">Import Theme</string>
+    <string name="theme_export">Export Theme</string>
+
+    <!-- ═══ NEW: Onion Skin ═══ -->
+    <string name="onion_skin_title">Onion Skin</string>
+    <string name="onion_skin_classic">Classic</string>
+    <string name="onion_skin_merge">Merge</string>
+    <string name="onion_skin_difference">Difference</string>
+    <string name="onion_skin_opacity_blend">Opacity Blend</string>
+    <string name="onion_skin_blueprint">Blueprint</string>
+    <string name="onion_skin_silhouette">Silhouette</string>
+    <string name="onion_skin_xray">X-Ray</string>
+    <string name="onion_skin_custom">Custom</string>
+    <string name="onion_effect_none">None</string>
+    <string name="onion_effect_glow">Glow</string>
+    <string name="onion_effect_chromatic">Chromatic Shift</string>
+    <string name="onion_effect_blur">Blur</string>
+    <string name="onion_effect_outline">Outline Only</string>
+    <string name="onion_effect_negative">Negative</string>
+    <string name="onion_effect_posterize">Posterize</string>
+    <string name="onion_effect_crosshatch">Cross Hatch</string>
+
+    <!-- ═══ NEW: Layer Outlining ═══ -->
+    <string name="layer_outline_title">Layer Outlining</string>
+    <string name="layer_outline_all_visible">All Visible</string>
+    <string name="layer_outline_active_only">Active Only</string>
+    <string name="layer_outline_selected">Selected Layers</string>
+    <string name="layer_outline_non_empty">Non-Empty Only</string>
+    <string name="layer_outline_frames">Animation Frames</string>
+
+    <!-- ═══ NEW: Modifier Keys ═══ -->
+    <string name="modifier_ctrl">Ctrl</string>
+    <string name="modifier_shift">Shift</string>
+    <string name="modifier_alt">Alt</string>
+    <string name="modifier_help">Use Ctrl+Click to toggle select, Shift+Click for range select</string>
+
+    <!-- ═══ NEW: Multi-Frame Selection ═══ -->
+    <string name="frame_selection_title">Multi-Frame Selection</string>
+    <string name="frame_selection_count">%d frames selected</string>
+    <string name="batch_move">Move</string>
+    <string name="batch_scale">Scale</string>
+    <string name="batch_rotate">Rotate</string>
+    <string name="batch_flip">Flip</string>
+    <string name="batch_opacity">Set Opacity</string>
+    <string name="batch_duration">Set Duration</string>
+    <string name="batch_delete">Delete Selected</string>
+    <string name="batch_duplicate">Duplicate Selected</string>
+    <string name="batch_reverse">Reverse Order</string>
+    <string name="batch_filter">Apply Filter</string>
+    <string name="batch_hue">Shift Hue</string>
+    <string name="batch_brightness">Shift Brightness</string>
+    <string name="batch_blend">Set Blend Mode</string>
+    <string name="batch_label">Label Frames</string>
+    <string name="batch_color_code">Color Code</string>
+
+    <!-- ═══ NEW: Frame Tags ═══ -->
+    <string name="frame_tag_title">Frame Tags</string>
+    <string name="frame_tag_new">New Tag</string>
+    <string name="frame_tag_repeat_infinite">∞ Loop</string>
+    <string name="frame_tag_repeat_once">Play Once</string>
+
+    <!-- ═══ NEW: Puppet Mesh ═══ -->
+    <string name="puppet_mesh_title">Puppet Mesh</string>
+    <string name="mesh_generate">Generate Mesh</string>
+    <string name="mesh_density">Mesh Density</string>
+    <string name="mesh_very_coarse">Very Coarse</string>
+    <string name="mesh_coarse">Coarse</string>
+    <string name="mesh_medium">Medium</string>
+    <string name="mesh_fine">Fine</string>
+    <string name="mesh_very_fine">Very Fine</string>
+    <string name="mesh_ultra">Ultra</string>
+    <string name="mesh_add_pin">Add Pin</string>
+    <string name="mesh_add_bone">Add Bone</string>
+    <string name="mesh_rig_preset">Load Rig Preset</string>
+    <string name="mesh_rig_humanoid">Humanoid Biped</string>
+    <string name="mesh_rig_quadruped">Quadruped</string>
+    <string name="mesh_rig_face">Face / Expressions</string>
+    <string name="mesh_rig_hand">Hand</string>
+    <string name="mesh_pose_save">Save Pose</string>
+    <string name="mesh_pose_load">Load Pose</string>
+    <string name="mesh_confirm">Confirm</string>
+    <string name="mesh_cancel">Cancel</string>
+    <string name="pin_type_joint">Joint</string>
+    <string name="pin_type_anchor">Anchor</string>
+    <string name="pin_type_effector">Effector</string>
+    <string name="pin_type_control">Control</string>
+    <string name="pin_type_ik">IK Handle</string>
+
+    <!-- ═══ NEW: Google Sign-In ═══ -->
+    <string name="google_sign_in_title">Sign in with Google</string>
+    <string name="google_sign_in_desc">Connect to share animations to YouTube. Your credentials stay between you and Google — the developer never sees them.</string>
+    <string name="google_sign_in_button">Sign in with Google</string>
+    <string name="google_sign_out">Sign Out</string>
+    <string name="google_sign_in_required">Sign in to share to YouTube</string>
+    <string name="google_privacy_notice">Your Google account connects directly to Google. Soquarky never receives your credentials, tokens, or personal data.</string>
+
+    <!-- ═══ NEW: YouTube Sharing ═══ -->
+    <string name="youtube_share_title">Share Animation to YouTube</string>
+    <string name="youtube_share_desc">Export your animation and upload directly to YouTube</string>
+    <string name="youtube_title">Video Title</string>
+    <string name="youtube_description">Description</string>
+    <string name="youtube_tags">Tags</string>
+    <string name="youtube_privacy">Privacy</string>
+    <string name="youtube_privacy_public">Public</string>
+    <string name="youtube_privacy_unlisted">Unlisted</string>
+    <string name="youtube_privacy_private">Private</string>
+    <string name="youtube_resolution">Export Resolution</string>
+    <string name="youtube_rendering">Rendering animation for YouTube…</string>
+    <string name="youtube_uploading">Uploading to YouTube…</string>
+    <string name="youtube_success">Animation uploaded to YouTube!</string>
+    <string name="youtube_animations_only">Only animations can be shared to YouTube</string>
+
+    <!-- ═══ NEW: Screen Overlay ═══ -->
+    <string name="overlay_title">Screen Overlay</string>
+    <string name="overlay_desc">Allow SoCreate to display tools over other apps</string>
+    <string name="overlay_permission_required">Screen overlay permission required</string>
+    <string name="overlay_mode_disabled">Disabled</string>
+    <string name="overlay_mode_toolbar">Floating Toolbar</string>
+    <string name="overlay_mode_quick_draw">Quick Draw</string>
+    <string name="overlay_mode_color_picker">Color Picker</string>
+    <string name="overlay_mode_reference">Reference Viewer</string>
+    <string name="overlay_mode_timer">Animation Timer</string>
+
+    <!-- ═══ NEW: Crash Reports (User-Owned) ═══ -->
+    <string name="crash_title">Crash Reports</string>
+    <string name="crash_ownership_title">Your Data, Your Control</string>
+    <string name="crash_ownership_desc">All crash data is stored on YOUR device and belongs to YOU. The developer (Soquarky) never automatically collects crash data. You can choose to share reports by posting to your GitHub and emailing a description.</string>
+    <string name="crash_ownership_accept">I understand — crash data is mine</string>
+    <string name="crash_opt_in">Automatically collect crash data</string>
+    <string name="crash_opt_in_desc">Store crash reports locally for later review</string>
+    <string name="crash_no_reports">No crash reports stored</string>
+    <string name="crash_report_count">%d reports stored locally</string>
+    <string name="crash_view_report">View Report</string>
+    <string name="crash_delete_report">Delete Report</string>
+    <string name="crash_clear_all">Clear All Reports</string>
+    <string name="crash_post_github">Post to My GitHub</string>
+    <string name="crash_email_developer">Email Developer</string>
+    <string name="crash_email_to">soquarky@artistso.com</string>
+    <string name="crash_github_config">Configure GitHub</string>
+    <string name="crash_github_username">GitHub Username</string>
+    <string name="crash_github_repo">Repository Name</string>
+    <string name="crash_github_token">Personal Access Token</string>
+    <string name="crash_add_notes">Add your notes about this issue</string>
+    <string name="crash_add_steps">Describe steps to reproduce</string>
+    <string name="crash_device_model">Device</string>
+    <string name="crash_android_version">Android Version</string>
+    <string name="crash_exception">Exception</string>
+
+    <!-- ═══ NEW: Artistso.com ═══ -->
+    <string name="title_artistso">Learn Art &amp; Animation</string>
+    <string name="artistso_tagline">Tutorials, demos, and courses by @SoQuarky</string>
+    <string name="artistso_feed">Community Feed</string>
+    <string name="artistso_tutorials">Tutorials</string>
+    <string name="artistso_demos">Demos</string>
+    <string name="artistso_courses">Courses</string>
+    <string name="artistso_timelapses">Time-Lapses</string>
+    <string name="artistso_breakdowns">Breakdowns</string>
+    <string name="artistso_open_browser">Open in Browser</string>
+    <string name="artistso_search">Search tutorials…</string>
+    <string name="artistso_featured">Featured</string>
+    <string name="artistso_instructor">Steven Michael Allen Owens</string>
+    <string name="artistso_difficulty_beginner">Beginner</string>
+    <string name="artistso_difficulty_intermediate">Intermediate</string>
+    <string name="artistso_difficulty_advanced">Advanced</string>
+    <string name="artistso_difficulty_pro">Professional</string>
+    <string name="artistso_difficulty_all">All Levels</string>
+
+    <!-- ═══ NEW: Settings ═══ -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_account">Account</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_canvas">Canvas</string>
+    <string name="settings_animation">Animation</string>
+    <string name="settings_gestures">Gestures</string>
+    <string name="settings_privacy">Privacy &amp; Data</string>
+    <string name="settings_about">About</string>
+    <string name="settings_theme">Color Theme</string>
+    <string name="settings_overlay">Screen Overlay</string>
+    <string name="settings_crash_reports">Crash Reports</string>
+    <string name="settings_google_account">Google Account</string>
+    <string name="settings_youtube">YouTube</string>
+    <string name="settings_modifier_buttons">On-Screen Modifier Keys</string>
+    <string name="settings_layer_outlines">Layer Outlines</string>
+    <string name="settings_onion_skin">Onion Skin</string>
+    <string name="settings_puppet_mesh">Puppet Mesh</string>
+    <string name="settings_artistso">Learn from @SoQuarky</string>
+
+    <!-- File Provider paths (for sharing) -->
+    <string name="file_provider_authority" translatable="false">com.socreate.app.fileprovider</string>
+</resources>

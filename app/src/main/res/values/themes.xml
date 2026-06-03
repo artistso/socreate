@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Main SoCreate theme -->
+    <style name="Theme.SoCreate" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">@color/socreate_primary</item>
+        <item name="colorPrimaryDark">@color/socreate_primary_dark</item>
+        <item name="colorPrimaryVariant">@color/socreate_accent</item>
+        <item name="colorAccent">@color/socreate_primary</item>
+        <item name="colorSurface">@color/socreate_bg_surface</item>
+        <item name="android:colorBackground">@color/socreate_bg_dark</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/socreate_bg_canvas</item>
+    </style>
+
+    <!-- Drawing Activity theme (fullscreen) -->
+    <style name="Theme.SoCreate.Drawing" parent="Theme.SoCreate">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+</resources>

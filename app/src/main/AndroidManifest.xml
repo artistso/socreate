@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Stylus / S Pen input -->
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+    <uses-feature android:name="android.hardware.sensor.proximity" android:required="false" />
+
+    <!-- Save / export to storage -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <!-- Haptic feedback for brush feel -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- Screen overlay permission — allows floating toolbar and tools over other apps -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <!-- Internet — for artistso.com tutorials, YouTube sharing, Google Sign-In -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- Microphone — for voice recording on animation audio tracks -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- Camera — for reference photos -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- Notifications — for background save/export/timelapse completion -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- Foreground service — for timelapse recording and audio -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <!-- Google Sign-In requires no special permissions — handled by Google Play Services -->
+
+    <!--
+        Samsung Galaxy Tab S10+ specific:
+        - MediaTek Dimensity 9300+ (arm64-v8a)
+        - 12.4" AMOLED 2800×1752 @ 120Hz
+        - S Pen (Wacom EMR) — 4096 pressure, tilt, palm rejection
+        - 12 GB RAM, 256/512 GB storage
+        - Android 14 (API 34), One UI 6.1.1
+        - DeX capable
+    -->
+
+    <application
+        android:name=".SoCreateApp"
+        android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_rules"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SoCreate"
+        tools:targetApi="35">
+
+        <!-- ─── Samsung DeX Support ──────────────────────────────────── -->
+        <meta-data
+            android:name="com.samsung.android.dex.launchwidth"
+            android:value="0" />
+        <meta-data
+            android:name="com.samsung.android.dex.launchheight"
+            android:value="0" />
+        <meta-data
+            android:name="com.samsung.android.keepalive.on"
+            android:value="true" />
+
+        <!-- ─── Google Play Services (for Sign-In & YouTube) ────────── -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <!-- ─── FileProvider for sharing/export ──────────────────────── -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <!-- ─── Gallery (Launcher) ───────────────────────────────────── -->
+        <activity
+            android:name=".ui.gallery.GalleryActivity"
+            android:exported="true"
+            android:resizeableActivity="true"
+            android:theme="@style/Theme.SoCreate">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- ─── Drawing Activity (Main Canvas) ───────────────────────── -->
+        <activity
+            android:name=".ui.drawing.DrawingActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|density|uiMode"
+            android:exported="false"
+            android:resizeableActivity="true"
+            android:screenOrientation="unspecified"
+            android:theme="@style/Theme.SoCreate.Drawing"
+            android:windowSoftInputMode="adjustPan" />
+
+        <!-- ─── Settings Activity ─────────────────────────────────────── -->
+        <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:exported="false"
+            android:label="@string/panel_settings"
+            android:theme="@style/Theme.SoCreate"
+            android:parentActivityName=".ui.gallery.GalleryActivity" />
+
+        <!-- ─── Crash Reports Activity (User-Owned) ──────────────────── -->
+        <activity
+            android:name=".ui.crash.CrashReportActivity"
+            android:exported="false"
+            android:label="Crash Reports"
+            android:theme="@style/Theme.SoCreate"
+            android:parentActivityName=".ui.settings.SettingsActivity" />
+
+        <!-- ─── Artistso.com Learning Hub ─────────────────────────────── -->
+        <activity
+            android:name=".ui.learning.ArtistsoActivity"
+            android:exported="false"
+            android:label="@string/title_artistso"
+            android:theme="@style/Theme.SoCreate"
+            android:parentActivityName=".ui.gallery.GalleryActivity" />
+
+        <!-- ─── Theme Picker Activity ─────────────────────────────────── -->
+        <activity
+            android:name=".ui.theme.ThemePickerActivity"
+            android:exported="false"
+            android:label="Themes"
+            android:theme="@style/Theme.SoCreate"
+            android:parentActivityName=".ui.settings.SettingsActivity" />
+
+        <!-- ─── Screen Overlay Service ────────────────────────────────── -->
+        <service
+            android:name=".service.OverlayService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse" />
+
+    </application>
+</manifest>

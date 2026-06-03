@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- SoCreate Brand Colors -->
+    <color name="socreate_primary">#E94560</color>
+    <color name="socreate_primary_dark">#B8304A</color>
+    <color name="socreate_primary_light">#FF6B81</color>
+    <color name="socreate_accent">#533483</color>
+
+    <!-- Background Colors -->
+    <color name="socreate_bg_dark">#0F3460</color>
+    <color name="socreate_bg_surface">#16213E</color>
+    <color name="socreate_bg_canvas">#1A1A2E</color>
+    <color name="socreate_bg_panel">#E8162130</color>
+    <color name="socreate_bg_toolbar">#CC1A1A2E</color>
+
+    <!-- Text Colors -->
+    <color name="socreate_text_primary">#FFFFFF</color>
+    <color name="socreate_text_secondary">#B0B0B0</color>
+    <color name="socreate_text_disabled">#666666</color>
+
+    <!-- Canvas -->
+    <color name="canvas_default_bg">#FFFFFF</color>
+    <color name="canvas_transparency_light">#E0E0E0</color>
+    <color name="canvas_transparency_dark">#C0C0C0</color>
+
+    <!-- UI Elements -->
+    <color name="divider">#33FFFFFF</color>
+    <color name="selection_march">#FFFFFF</color>
+    <color name="onion_skin_before">#FF00004D</color>
+    <color name="onion_skin_after">#00FF0033</color>
+
+    <!-- Standard -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+</resources>

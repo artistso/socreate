@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1A1A2E"
+    tools:context=".ui.drawing.DrawingActivity">
+
+    <!-- ═══ Main Drawing Canvas ═══ -->
+    <com.socreate.app.ui.drawing.DrawingCanvasView
+        android:id="@+id/canvasView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- ═══ Top Tool Bar ═══ -->
+    <LinearLayout
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="top"
+        android:layout_margin="8dp"
+        android:background="@drawable/bg_toolbar"
+        android:elevation="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8dp">
+
+        <!-- Brush Tool -->
+        <ImageButton
+            android:id="@+id/btnBrush"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="2dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Brush tool"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_brush"
+            android:tint="#FFFFFF" />
+
+        <!-- Eraser -->
+        <ImageButton
+            android:id="@+id/btnEraser"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="2dp"
+            android:alpha="0.5"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Eraser"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_eraser"
+            android:tint="#FFFFFF" />
+
+        <!-- Smudge -->
+        <ImageButton
+            android:id="@+id/btnSmudge"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="2dp"
+            android:alpha="0.5"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Smudge"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_smudge"
+            android:tint="#FFFFFF" />
+
+        <!-- Select -->
+        <ImageButton
+            android:id="@+id/btnSelect"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="2dp"
+            android:alpha="0.5"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Selection tool"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_select"
+            android:tint="#FFFFFF" />
+
+        <!-- Eyedropper -->
+        <ImageButton
+            android:id="@+id/btnEyedropper"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="2dp"
+            android:alpha="0.5"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Color picker"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_eyedropper"
+            android:tint="#FFFFFF" />
+
+        <!-- Separator -->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="28dp"
+            android:layout_marginHorizontal="6dp"
+            android:background="#33FFFFFF" />
+
+        <!-- Brush Picker -->
+        <ImageButton
+            android:id="@+id/btnBrushPicker"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="2dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Brush library"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_brush_library"
+            android:tint="#FFFFFF" />
+
+        <!-- Color Preview -->
+        <View
+            android:id="@+id/colorPreview"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginHorizontal="4dp"
+            android:background="@drawable/bg_color_preview"
+            android:backgroundTint="#000000" />
+
+        <!-- Layers -->
+        <ImageButton
+            android:id="@+id/btnLayers"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="2dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Layers"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_layers"
+            android:tint="#FFFFFF" />
+
+        <!-- Spacer -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Undo -->
+        <ImageButton
+            android:id="@+id/btnUndo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="2dp"
+            android:alpha="0.3"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Undo"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_undo"
+            android:tint="#FFFFFF" />
+
+        <!-- Redo -->
+        <ImageButton
+            android:id="@+id/btnRedo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="2dp"
+            android:alpha="0.3"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Redo"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_redo"
+            android:tint="#FFFFFF" />
+
+        <!-- Settings -->
+        <ImageButton
+            android:id="@+id/btnSettings"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="2dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Settings"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_settings"
+            android:tint="#FFFFFF" />
+    </LinearLayout>
+
+    <!-- ═══ Bottom Slider Bar ═══ -->
+    <LinearLayout
+        android:id="@+id/sliderBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="8dp"
+        android:background="@drawable/bg_toolbar"
+        android:elevation="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <!-- Size Slider -->
+        <TextView
+            android:id="@+id/sizeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20px"
+            android:textColor="#B0B0B0"
+            android:textSize="12sp"
+            android:minWidth="44dp" />
+
+        <SeekBar
+            android:id="@+id/sizeSlider"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_marginHorizontal="8dp"
+            android:layout_weight="1"
+            android:max="500"
+            android:progress="20"
+            android:progressTint="#E94560"
+            android:thumbTint="#E94560" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="28dp"
+            android:layout_marginHorizontal="8dp"
+            android:background="#33FFFFFF" />
+
+        <!-- Opacity Slider -->
+        <TextView
+            android:id="@+id/opacityLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100%"
+            android:textColor="#B0B0B0"
+            android:textSize="12sp"
+            android:minWidth="44dp" />
+
+        <SeekBar
+            android:id="@+id/opacitySlider"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_marginHorizontal="8dp"
+            android:layout_weight="1"
+            android:max="100"
+            android:progress="100"
+            android:progressTint="#E94560"
+            android:thumbTint="#E94560" />
+    </LinearLayout>
+
+    <!-- ═══ Brush Picker Panel (slides from left) ═══ -->
+    <FrameLayout
+        android:id="@+id/brushPickerPanel"
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:layout_marginTop="56dp"
+        android:layout_marginBottom="56dp"
+        android:background="@drawable/bg_panel"
+        android:elevation="8dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="Brushes"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <!-- ═══ Color Picker Panel (slides from right) ═══ -->
+    <FrameLayout
+        android:id="@+id/colorPickerPanel"
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:layout_marginTop="56dp"
+        android:layout_marginBottom="56dp"
+        android:background="@drawable/bg_panel"
+        android:elevation="8dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="Colors"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <!-- ═══ Layer Panel (slides from right) ═══ -->
+    <FrameLayout
+        android:id="@+id/layerPanel"
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:layout_marginTop="56dp"
+        android:layout_marginBottom="56dp"
+        android:background="@drawable/bg_panel"
+        android:elevation="8dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="Layers"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <!-- ═══ Quick Menu (radial, appears at touch point) ═══ -->
+    <FrameLayout
+        android:id="@+id/quickMenuPanel"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_quick_menu"
+        android:elevation="12dp"
+        android:visibility="gone" />
+
+</FrameLayout>
