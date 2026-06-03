@@ -47,7 +47,7 @@ object BrushPresets {
         id = Brush.HB_PENCIL_ID,
         name = "HB Pencil",
         category = BrushCategory.SKETCHING,
-        engine = BrushEngine.STANDARD,
+        engine = com.socreate.app.core.model.BrushEngine.STANDARD,
         shape = BrushShape(
             texture = BrushTexture.ROUND,
             spacing = 0.12f,
@@ -91,7 +91,7 @@ object BrushPresets {
         id = Brush.PENCIL_ID,
         name = "Pencil",
         category = BrushCategory.SKETCHING,
-        engine = BrushEngine.STANDARD,
+        engine = com.socreate.app.core.model.BrushEngine.STANDARD,
         shape = BrushShape(
             texture = BrushTexture.ROUGH,
             spacing = 0.15f,
@@ -133,7 +133,7 @@ object BrushPresets {
         id = Brush.FINE_TIP_ID,
         name = "Fine Tip",
         category = BrushCategory.SKETCHING,
-        engine = BrushEngine.STANDARD,
+        engine = com.socreate.app.core.model.BrushEngine.STANDARD,
         shape = BrushShape(
             texture = BrushTexture.ROUND,
             spacing = 0.08f
@@ -165,7 +165,7 @@ object BrushPresets {
         id = Brush.CHARCOAL_ID,
         name = "Charcoal",
         category = BrushCategory.CHARCOAL,
-        engine = BrushEngine.NOISE,
+        engine = com.socreate.app.core.model.BrushEngine.NOISE,
         shape = BrushShape(
             texture = BrushTexture.CHARCOAL,
             spacing = 0.25f,
@@ -212,7 +212,7 @@ object BrushPresets {
         id = Brush.STUDIO_PEN_ID,
         name = "Studio Pen",
         category = BrushCategory.INKING,
-        engine = BrushEngine.STANDARD,
+        engine = com.socreate.app.core.model.BrushEngine.STANDARD,
         shape = BrushShape(
             texture = BrushTexture.ROUND,
             spacing = 0.05f
@@ -240,7 +240,7 @@ object BrushPresets {
         id = Brush.TECHNICAL_PEN_ID,
         name = "Technical Pen",
         category = BrushCategory.INKING,
-        engine = BrushEngine.STANDARD,
+        engine = com.socreate.app.core.model.BrushEngine.STANDARD,
         shape = BrushShape(
             texture = BrushTexture.ROUND,
             spacing = 0.04f
@@ -266,7 +266,7 @@ object BrushPresets {
         id = Brush.INK_BLEED_ID,
         name = "Ink Bleed",
         category = BrushCategory.INKING,
-        engine = BrushEngine.WET,
+        engine = com.socreate.app.core.model.BrushEngine.WET,
         shape = BrushShape(
             texture = BrushTexture.ROUND,
             spacing = 0.1f,
@@ -297,7 +297,7 @@ object BrushPresets {
         id = Brush.DRY_INK_ID,
         name = "Dry Ink",
         category = BrushCategory.INKING,
-        engine = BrushEngine.NOISE,
+        engine = com.socreate.app.core.model.BrushEngine.NOISE,
         shape = BrushShape(
             texture = BrushTexture.ROUGH,
             spacing = 0.18f,
@@ -328,7 +328,7 @@ object BrushPresets {
         id = Brush.ROUND_BRUSH_ID,
         name = "Round Brush",
         category = BrushCategory.PAINTING,
-        engine = BrushEngine.WET,
+        engine = com.socreate.app.core.model.BrushEngine.WET,
         shape = BrushShape(
             texture = BrushTexture.ROUND,
             spacing = 0.1f,
@@ -371,7 +371,7 @@ object BrushPresets {
         id = Brush.FLAT_BRUSH_ID,
         name = "Flat Brush",
         category = BrushCategory.PAINTING,
-        engine = BrushEngine.WET,
+        engine = com.socreate.app.core.model.BrushEngine.WET,
         shape = BrushShape(
             texture = BrushTexture.FLAT,
             spacing = 0.15f,
@@ -402,7 +402,7 @@ object BrushPresets {
         id = Brush.SOFT_BRUSH_ID,
         name = "Soft Brush",
         category = BrushCategory.PAINTING,
-        engine = BrushEngine.LIGHT,
+        engine = com.socreate.app.core.model.BrushEngine.LIGHT,
         shape = BrushShape(
             texture = BrushTexture.SOFT_ROUND,
             spacing = 0.08f
@@ -432,7 +432,7 @@ object BrushPresets {
         id = Brush.AIRBRUSH_ID,
         name = "Airbrush",
         category = BrushCategory.AIRBRUSHING,
-        engine = BrushEngine.LIGHT,
+        engine = com.socreate.app.core.model.BrushEngine.LIGHT,
         shape = BrushShape(
             texture = BrushTexture.SOFT_ROUND,
             spacing = 0.05f,
@@ -471,7 +471,7 @@ object BrushPresets {
         id = "builtin_calligraphy",
         name = "Calligraphy",
         category = BrushCategory.CALLIGRAPHY,
-        engine = BrushEngine.STANDARD,
+        engine = com.socreate.app.core.model.BrushEngine.STANDARD,
         shape = BrushShape(
             texture = BrushTexture.FLAT,
             spacing = 0.06f,

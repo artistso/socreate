@@ -423,7 +423,7 @@ class CanvasRenderer(
                 id = Brush.HB_PENCIL_ID,
                 name = "HB Pencil",
                 category = BrushCategory.SKETCHING,
-                engine = BrushEngine.STANDARD,
+                engine = com.socreate.app.core.model.BrushEngine.STANDARD,
                 properties = BrushProperties(
                     baseSize = 10f,
                     opacity = 0.8f,

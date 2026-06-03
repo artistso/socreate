@@ -45,11 +45,11 @@ class StrokeRenderer {
         }
 
         when (brush.engine) {
-            BrushEngine.STANDARD -> renderStandardStroke(canvas, stroke, brush)
-            BrushEngine.WET -> renderWetStroke(canvas, stroke, brush)
-            BrushEngine.DUAL -> renderDualStroke(canvas, stroke, brush)
-            BrushEngine.LIGHT -> renderLightStroke(canvas, stroke, brush)
-            BrushEngine.NOISE -> renderNoiseStroke(canvas, stroke, brush)
+            com.socreate.app.core.model.BrushEngine.STANDARD -> renderStandardStroke(canvas, stroke, brush)
+            com.socreate.app.core.model.BrushEngine.WET -> renderWetStroke(canvas, stroke, brush)
+            com.socreate.app.core.model.BrushEngine.DUAL -> renderDualStroke(canvas, stroke, brush)
+            com.socreate.app.core.model.BrushEngine.LIGHT -> renderLightStroke(canvas, stroke, brush)
+            com.socreate.app.core.model.BrushEngine.NOISE -> renderNoiseStroke(canvas, stroke, brush)
         }
     }
 

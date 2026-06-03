@@ -49,11 +49,12 @@ data class PuppetMesh(
         return pins.minByOrNull { pin ->
             val dx = pin.currentX - x
             val dy = pin.currentY - y
-            kotlin.math.sqrt(dx * dx + dy * dy)
-        }?.take { pin ->
+            kotlin.math.sqrt((dx * dx + dy * dy).toDouble()).toFloat()
+        }?.let { pin ->
             val dx = pin.currentX - x
             val dy = pin.currentY - y
-            kotlin.math.sqrt(dx * dx + dy * dy) <= maxDistance
+            val dist = kotlin.math.sqrt((dx * dx + dy * dy).toDouble()).toFloat()
+            if (dist <= maxDistance) pin else null
         }
     }
 
@@ -61,8 +62,9 @@ data class PuppetMesh(
     fun nearestBone(x: Float, y: Float, maxDistance: Float = 30f): MeshBone? {
         return bones.minByOrNull { bone ->
             distanceToBone(x, y, bone)
-        }?.take { bone ->
-            distanceToBone(x, y, bone) <= maxDistance
+        }?.let { bone ->
+            val dist = distanceToBone(x, y, bone)
+            if (dist <= maxDistance) bone else null
         }
     }
 
