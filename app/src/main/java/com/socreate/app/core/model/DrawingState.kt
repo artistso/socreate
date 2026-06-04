@@ -1,221 +1,216 @@
 package com.socreate.app.core.model
 
-import com.socreate.app.engine.renderer.SmartShapeResult
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Color
+import java.util.UUID
 
 /**
- * Complete state for the Drawing screen.
- * Immutable — all changes produce a new state via the reducer.
- *
- * Defaults are optimized for Samsung Galaxy Tab S10+.
+ * Complete drawing state for MVI architecture
  */
 data class DrawingState(
-    // Canvas (Tab S10+ native: 2800×1752)
-    val canvas: Canvas = Canvas.DEFAULT,
-    val zoom: Float = 1f,
-    val panX: Float = 0f,
-    val panY: Float = 0f,
-    val rotation: Float = 0f,
-
-    // Layers
-    val layerStack: LayerStack = LayerStack.createDefault(),
-
-    // Current tool
-    val activeTool: DrawingTool = DrawingTool.BRUSH,
-    val activeBrushId: String = Brush.HB_PENCIL_ID,
-    val activeBrushProperties: BrushProperties = BrushProperties(),
-    val activeColor: SoCreateColor = SoCreateColor.BLACK,
-    val brushSize: Float = 10f,
-    val brushOpacity: Float = 1f,
-    val brushSmoothing: Float = 0.3f,
-
-    // Stroke being drawn
-    val currentStroke: Stroke? = null,
+    val canvasWidth: Int = 2800,
+    val canvasHeight: Int = 1752,
+    val canvasBackground: Color = Color.White,
+    
+    val brush: BrushState = BrushState(),
+    val symmetry: SymmetryMode = SymmetryMode.NONE,
+    val shapeDetection: Boolean = false,
+    
+    val layers: List<LayerState> = emptyList(),
+    val activeLayerId: String? = null,
+    
+    val timeline: TimelineState = TimelineState(),
+    val onionSkin: OnionSkinState = OnionSkinState(),
+    
+    val undoStack: List<StrokeData> = emptyList(),
+    val redoStack: List<StrokeData> = emptyList(),
+    val currentStroke: StrokeData? = null,
+    
     val isDrawing: Boolean = false,
-
-    // Selection
-    val selection: Selection? = null,
-    val isTransforming: Boolean = false,
-
-    // UI state
-    val showBrushPicker: Boolean = false,
-    val showColorPicker: Boolean = false,
-    val showLayerPanel: Boolean = false,
-    val showQuickMenu: Boolean = false,
-    val isFullscreen: Boolean = true,
-    val showRulers: Boolean = false,
-    val showGrid: Boolean = false,
-    val quickMenuPosition: Pair<Float, Float> = 0f to 0f,
-
-    // S Pen state
-    val spenButtonHeld: Boolean = false,
-    val spenHovering: Boolean = false,
-    val spenHoverX: Float = 0f,
-    val spenHoverY: Float = 0f,
-
-    // Undo/Redo
-    val canUndo: Boolean = false,
-    val canRedo: Boolean = false,
-    val undoCount: Int = 0,
-    val redoCount: Int = 0,
-
-    // Recent colors
-    val recentColors: List<SoCreateColor> = emptyList(),
-    val colorHarmony: ColorHarmony = ColorHarmony.NONE,
-
-    // Project info
-    val project: Project? = null,
-    val isSaving: Boolean = false,
-    val isExporting: Boolean = false,
-
-    // Animation (future phase)
-    val animationTimeline: AnimationTimeline? = null,
-    val isPlayingAnimation: Boolean = false,
-    val currentFrame: Int = 0,
-
-    // ─── Advanced Features (from FlipaClip, ibisPaint, CSP, HiPaint) ─────────
-
-    // Symmetry (HiPaint)
-    val symmetryConfig: SymmetryConfig = SymmetryConfig(),
-
-    // Reference images (HiPaint)
-    val referenceImages: List<ReferenceImage> = emptyList(),
-
-    // Smart shape detection (Clip Studio v5)
-    val activeSmartShape: SmartShape? = null,
-    val smartShapeResult: SmartShapeResult? = null,
-
-    // Puppet warp (Clip Studio Paint)
-    val activePuppetWarp: PuppetWarp? = null,
-
-    // Liquify (Clip Studio Paint)
-    val liquifySettings: LiquifySettings = LiquifySettings(),
-    val isLiquifying: Boolean = false,
-
-    // Fill (ibisPaint)
-    val fillSettings: FillSettings = FillSettings(),
-
-    // Shading assist (Clip Studio v5)
-    val shadingAssist: ShadingAssistConfig = ShadingAssistConfig(),
-
-    // Velocity brush (Clip Studio v5)
-    val velocitySettings: VelocitySettings = VelocitySettings(),
-
-    // Extended canvas (FlipaClip Beta)
-    val extendedCanvas: ExtendedCanvas? = null,
-
-    // Gesture config (HiPaint)
-    val gestureConfig: GestureConfig = GestureConfig(),
-
-    // Auto-save (Clip Studio v5)
-    val autoSaveConfig: AutoSaveConfig = AutoSaveConfig(),
-    val hasUnsavedChanges: Boolean = false,
-
-    // Time-lapse (ibisPaint / HiPaint)
-    val timelapseConfig: TimelapseConfig = TimelapseConfig(),
-
-    // Floating panels (ibisPaint v14)
-    val floatingPanels: List<FloatingPanel> = emptyList(),
-
-    // Numeric input (ibisPaint)
-    val numericInputTarget: NumericInputTarget? = null,
-    val showNumericInput: Boolean = false,
-
-    // Audio tracks (FlipaClip)
-    val audioTracks: List<AudioTrack> = emptyList(),
-
-    // Device info
-    val displayRefreshRate: Int = TabS10Plus.REFRESH_RATE_HZ,
-    val supportsWideGamut: Boolean = true,
-
-    // ─── Color Theme System ─────────────────────────────────────────────────
-    val activeTheme: AppTheme = ThemePresets.DEFAULT_DARK,
-    val availableThemes: List<AppTheme> = ThemePresets.ALL,
-
-    // ─── Enhanced Onion Skin ────────────────────────────────────────────────
-    val enhancedOnionSkin: OnionSkinConfig = OnionSkinConfig(),
-
-    // ─── Layer Outlining (Aseprite-style) ──────────────────────────────────
-    val layerOutlineConfig: LayerOutlineConfig = LayerOutlineConfig(),
-
-    // ─── Multi-Frame Selection (Aseprite/Resprite) ─────────────────────────
-    val multiFrameSelection: MultiFrameSelection = MultiFrameSelection(),
-    val frameTags: List<FrameTag> = emptyList(),
-    val celLinks: List<CelLink> = emptyList(),
-    val frameColorCodes: Map<Int, FrameColor> = emptyMap(),
-
-    // ─── On-Screen Modifier Keys ────────────────────────────────────────────
-    val modifierKeys: ModifierKeyState = ModifierKeyState(),
-
-    // ─── Puppet Mesh Tools ──────────────────────────────────────────────────
-    val activePuppetMesh: PuppetMesh? = null,
-    val meshTool: MeshTool = MeshTool.SELECT,
-    val meshGenConfig: MeshGenConfig = MeshGenConfig(),
-    val meshPoses: List<MeshPose> = emptyList(),
-
-    // ─── User Account & Privacy ────────────────────────────────────────────
-    val userAccount: UserAccount = UserAccount(),
-
-    // ─── YouTube Sharing ────────────────────────────────────────────────────
-    val youtubeShareConfig: YouTubeShareConfig = YouTubeShareConfig(),
-
-    // ─── Artistso.com Integration ──────────────────────────────────────────
-    val artistsoConfig: ArtistsoConfig = ArtistsoConfig(),
-    val artistsoContent: List<ArtistsoContent> = emptyList(),
-
-    // ─── Screen Overlay ────────────────────────────────────────────────────
-    val overlayConfig: OverlayConfig = OverlayConfig(),
-
-    // ─── Crash Reports (User-Owned) ────────────────────────────────────────
-    val localCrashReports: List<CrashReport> = emptyList()
-) : MviState {
-
-    val viewTransform: ViewTransform
-        get() = ViewTransform(zoom, panX, panY, rotation)
-
-    fun screenToCanvas(screenX: Float, screenY: Float): Pair<Float, Float> {
-        val cx = (screenX - panX) / zoom
-        val cy = (screenY - panY) / zoom
-        return cx to cy
-    }
-
-    fun canvasToScreen(canvasX: Float, canvasY: Float): Pair<Float, Float> {
-        return (canvasX * zoom + panX) to (canvasY * zoom + panY)
+    val controlMode: Boolean = false,
+    val keyframeMode: Boolean = false,
+    
+    val panels: PanelState = PanelState(),
+    
+    val settings: AppSettings = AppSettings(),
+    
+    val gallery: List<CanvasMetadata> = emptyList()
+) {
+    companion object {
+        fun initial(): DrawingState {
+            val bgLayer = LayerState(
+                id = UUID.randomUUID().toString(),
+                name = "Background",
+                color = Color(0xFFFF6B6B),
+                isVisible = true
+            )
+            return DrawingState(
+                layers = listOf(bgLayer),
+                activeLayerId = bgLayer.id
+            )
+        }
     }
 }
 
-data class ViewTransform(
-    val zoom: Float = 1f,
-    val panX: Float = 0f,
-    val panY: Float = 0f,
-    val rotation: Float = 0f
+/**
+ * Brush configuration state
+ */
+data class BrushState(
+    val type: BrushType = BrushType.PENCIL,
+    val size: Float = 12f,
+    val opacity: Float = 100f,
+    val hardness: Float = 100f,
+    val color: Color = Color.Black,
+    val pressureEnabled: Boolean = true,
+    val pressureCurve: PressureCurve = PressureCurve.LINEAR,
+    val recentColors: List<Color> = listOf(
+        Color.Black, Color.White,
+        Color(0xFFFF6B35), Color(0xFF4ECDC4),
+        Color(0xFF9B59B6), Color(0xFFE74C3C),
+        Color(0xFF2ECC71), Color(0xFF3498DB)
+    )
 )
 
-enum class DrawingTool {
-    BRUSH,
-    ERASER,
-    SMUDGE,
-    SELECT,
-    LASSO,
-    TRANSFORM,
-    WARP,
-    FLOOD_FILL,
-    EYEDROPPER,
-    CLIPBOARD_PASTE,
-    TEXT,
-    SHAPE
+enum class BrushType {
+    PENCIL, PEN, MARKER, BRUSH, AIRBRUSH, ERASER, SMUDGE, BLUR, SHARPEN, CLONE, HEAL, DODGE, BURN
 }
 
-data class Selection(
-    val bounds: Bounds,
-    val type: SelectionType = SelectionType.RECTANGLE,
-    val isActive: Boolean = true,
-    val mask: List<StrokePoint>? = null
+enum class PressureCurve {
+    LINEAR, EASE_IN, EASE_OUT, S_CURVE, CUSTOM
+}
+
+/**
+ * Symmetry modes for drawing
+ */
+enum class SymmetryMode {
+    NONE,
+    HORIZONTAL,
+    VERTICAL,
+    QUADRANT,
+    RADIAL_4,
+    RADIAL_6,
+    RADIAL_8,
+    MANDALA
+}
+
+/**
+ * Layer state
+ */
+data class LayerState(
+    val id: String = UUID.randomUUID().toString(),
+    val name: String = "Layer",
+    val isVisible: Boolean = true,
+    val isLocked: Boolean = false,
+    val opacity: Float = 100f,
+    val blendMode: BlendMode = BlendMode.SrcOver,
+    val color: Color = Color.Gray,
+    val thumbnailSize: ThumbnailSize = ThumbnailSize.MEDIUM,
+    val thumbnailScope: ThumbnailScope = ThumbnailScope.LAYER_CONTENTS
 )
 
-enum class SelectionType {
-    RECTANGLE, ELLIPSE, LASSO, AUTO
+enum class ThumbnailSize { SMALL, MEDIUM, LARGE }
+enum class ThumbnailScope { WHOLE_CANVAS, LAYER_CONTENTS }
+
+/**
+ * Stroke data for rendering
+ */
+data class StrokeData(
+    val id: String = UUID.randomUUID().toString(),
+    val points: List<Offset> = emptyList(),
+    val brushType: BrushType = BrushType.PENCIL,
+    val color: Color = Color.Black,
+    val size: Float = 12f,
+    val opacity: Float = 100f,
+    val pressurePoints: List<Float> = emptyList(),
+    val timestamp: Long = System.currentTimeMillis()
+)
+
+/**
+ * Timeline state
+ */
+data class TimelineState(
+    val frames: List<FrameData> = emptyList(),
+    val currentFrameIndex: Int = 0,
+    val fps: Int = 12,
+    val maxDurationSeconds: Int = 180,
+    val isPlaying: Boolean = false,
+    val loopMode: LoopMode = LoopMode.REPEAT
+) {
+    val maxFrames: Int get() = fps * maxDurationSeconds
 }
 
-enum class ColorHarmony {
-    NONE, COMPLEMENTARY, ANALOGOUS, TRIADIC, SPLIT_COMPLEMENTARY, TETRADIC
-}
+data class FrameData(
+    val id: String = UUID.randomUUID().toString(),
+    val frameNumber: Int = 0,
+    val isKeyframe: Boolean = false,
+    val layerStates: Map<String, LayerFrameState> = emptyMap()
+)
+
+data class LayerFrameState(
+    val visible: Boolean = true,
+    val opacity: Float = 100f
+)
+
+enum class LoopMode { NONE, REPEAT, REVERSE, PING_PONG }
+
+/**
+ * Onion skinning state
+ */
+data class OnionSkinState(
+    val isEnabled: Boolean = true,
+    val previousFrames: Int = 3,
+    val nextFrames: Int = 0,
+    val opacity: Float = 30f,
+    val tintPrevious: Color = Color(0xFFFF6B6B),
+    val tintNext: Color = Color(0xFF4ECDC4)
+)
+
+/**
+ * Panel visibility state
+ */
+data class PanelState(
+    val brushes: PanelVisibility = PanelVisibility(),
+    val layers: PanelVisibility = PanelVisibility(),
+    val timeline: PanelVisibility = PanelVisibility(),
+    val gallery: PanelVisibility = PanelVisibility(),
+    val settings: PanelVisibility = PanelVisibility(),
+    val onionSkin: PanelVisibility = PanelVisibility(),
+    val symmetry: PanelVisibility = PanelVisibility()
+)
+
+data class PanelVisibility(
+    val isOpen: Boolean = false,
+    val offsetX: Float = 0f,
+    val offsetY: Float = 0f,
+    val isDragging: Boolean = false
+)
+
+/**
+ * App settings
+ */
+data class AppSettings(
+    val palmRejection: Boolean = true,
+    val stylusOnly: Boolean = false,
+    val lowLatency: Boolean = true,
+    val gestureUndo: Boolean = true,
+    val gestureRedo: Boolean = true,
+    val gestureFullscreen: Boolean = false,
+    val autoSave: Boolean = true
+)
+
+/**
+ * Canvas metadata for gallery
+ */
+data class CanvasMetadata(
+    val id: String = UUID.randomUUID().toString(),
+    val name: String = "Untitled",
+    val width: Int,
+    val height: Int,
+    val fps: Int,
+    val thumbnail: String? = null,
+    val createdAt: Long = System.currentTimeMillis(),
+    val lastModified: Long = System.currentTimeMillis(),
+    val layerCount: Int = 1,
+    val frameCount: Int = 1
+)
