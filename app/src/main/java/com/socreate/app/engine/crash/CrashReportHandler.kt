@@ -113,7 +113,7 @@ class CrashReportHandler(private val context: Context) {
     fun createEmailIntent(report: CrashReport): Intent {
         val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
             data = Uri.parse("mailto:")
-            putExtra(Intent.EXTRA_EMAIL, arrayOf(report.reportEmail))
+            putExtra(Intent.EXTRA_EMAIL, arrayOf("soquarky@artistso.com"))
             putExtra(Intent.EXTRA_SUBJECT, report.toEmailSubject())
             putExtra(Intent.EXTRA_TEXT, report.toEmailBody())
         }

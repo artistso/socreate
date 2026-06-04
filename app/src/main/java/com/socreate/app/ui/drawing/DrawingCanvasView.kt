@@ -2,10 +2,17 @@ package com.socreate.app.ui.drawing
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.PixelFormat
+import android.graphics.PorterDuff
 import android.os.Build
 import android.util.AttributeSet
 import android.view.Choreographer
+import android.view.HapticFeedbackConstants
+import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
@@ -13,12 +20,16 @@ import android.view.View
 import android.view.WindowInsets
 import androidx.annotation.RequiresApi
 import androidx.core.view.WindowInsetsCompat
-import com.socreate.app.core.model.*
+import com.socreate.app.core.model.DrawingIntent
+import com.socreate.app.core.model.DrawingState
+import com.socreate.app.core.model.DrawingTool
+import com.socreate.app.core.model.StrokePoint
+import com.socreate.app.core.model.ToolType
 import com.socreate.app.engine.canvas.CanvasRenderer
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import androidx.input.motionprediction.MotionEventPredictor
+import androidx.input.motionprediction.system.SystemMotionEventPredictor
 
 /**
  * Custom SurfaceView optimized for Samsung Galaxy Tab S10+.
@@ -48,7 +59,7 @@ class DrawingCanvasView @JvmOverloads constructor(
 
     // ─── Motion Prediction (Jetpack) ────────────────────────────────────────
     // Predicts S Pen path 1+ frames ahead, eliminating perceived latency
-    private var motionPredictor: MotionEventPredictor? = null
+    private var motionPredictor: SystemMotionEventPredictor? = null
 
     // ─── Frame Scheduling (120 Hz) ──────────────────────────────────────────
     private val choreographer = Choreographer.getInstance()
@@ -110,7 +121,7 @@ class DrawingCanvasView @JvmOverloads constructor(
         renderer?.initialize(width, height)
 
         // Initialize motion predictor
-        motionPredictor = MotionEventPredictor(this)
+        motionPredictor = SystemMotionEventPredictor.newInstance(this, 0)
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {

@@ -14,13 +14,21 @@ import android.view.MotionEvent
 import android.view.View
 import com.socreate.app.core.model.Bounds
 import com.socreate.app.core.model.Brush
+import com.socreate.app.core.model.BrushCategory
+import com.socreate.app.core.model.BrushDynamics
+import com.socreate.app.core.model.BrushProperties
+import com.socreate.app.core.model.BrushShape
+import com.socreate.app.core.model.BrushTexture
 import com.socreate.app.core.model.Canvas as ProjectCanvas
+import com.socreate.app.core.model.ControlPoint
 import com.socreate.app.core.model.DrawingIntent
 import com.socreate.app.core.model.DrawingState
 import com.socreate.app.core.model.DrawingTool
 import com.socreate.app.core.model.ExtendedCanvas
 import com.socreate.app.core.model.Layer
 import com.socreate.app.core.model.LayerStack
+import com.socreate.app.core.model.BlendMode
+import com.socreate.app.core.model.PressureCurve
 import com.socreate.app.core.model.Selection
 import com.socreate.app.core.model.SelectionType
 import com.socreate.app.core.model.SoCreateColor
@@ -136,7 +144,7 @@ class CanvasRenderer(
      */
     private fun renderFrame() {
         val display = displayBitmap ?: return
-        val canvas: AndroidCanvas? = displayCanvas ?: return
+        val canvas = displayCanvas ?: return
 
         canvas.save()
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)

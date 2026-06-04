@@ -1,7 +1,11 @@
 package com.socreate.app.engine.renderer
 
-import android.graphics.*
-import com.socreate.app.core.model.*
+import android.graphics.Canvas
+import android.graphics.DashPathEffect
+import android.graphics.Paint
+import com.socreate.app.core.model.StrokePoint
+import com.socreate.app.core.model.SymmetryConfig
+import com.socreate.app.core.model.SymmetryType
 
 /**
  * Renders symmetry guides and replicates strokes across symmetry axes.

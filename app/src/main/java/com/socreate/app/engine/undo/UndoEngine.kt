@@ -45,7 +45,7 @@ class UndoEngine(
     ) {
         record(
             UndoEntry.LayerStackChange(
-                description = description,
+                actionDescription = description,
                 previousState = previousState,
                 newState = newState
             )
@@ -124,10 +124,10 @@ sealed class UndoEntry(
      * A complete layer stack change (layer added, removed, reordered, etc.)
      */
     data class LayerStackChange(
-        override val description: String,
+        val actionDescription: String,
         val previousState: LayerStack,
         val newState: LayerStack
-    ) : UndoEntry(description)
+    ) : UndoEntry(actionDescription)
 
     /**
      * A stroke was added to a layer.

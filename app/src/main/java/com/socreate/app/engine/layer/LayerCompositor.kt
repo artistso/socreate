@@ -1,7 +1,16 @@
 package com.socreate.app.engine.layer
 
-import android.graphics.*
-import com.socreate.app.core.model.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
+import android.graphics.Rect
+import com.socreate.app.core.model.BlendMode
+import com.socreate.app.core.model.Layer
+import com.socreate.app.core.model.LayerStack
+import com.socreate.app.core.model.LayerTransform
+import com.socreate.app.core.model.SoCreateColor
 
 /**
  * Composites multiple layers together using blend modes and opacity.
@@ -58,8 +67,8 @@ class LayerCompositor {
 
             // Set up paint for this layer
             layerPaint.alpha = (layer.opacity * 255).toInt()
-            layerPaint.xfermode = blendModeMap[layer.blendMode]?.let {
-                PorterDuffXfermode(it)
+            layerPaint.xfermode = blendModeMap[layer.blendMode]?.let { mode ->
+                PorterDuffXfermode(mode)
             }
 
             // Apply layer transform
@@ -139,8 +148,8 @@ class LayerCompositor {
      * Used for per-stroke blending within a layer.
      */
     fun applyBlendMode(paint: Paint, blendMode: BlendMode) {
-        blendModeMap[blendMode]?.let {
-            paint.xfermode = PorterDuffXfermode(it)
+        blendModeMap[blendMode]?.let { mode ->
+            paint.xfermode = PorterDuffXfermode(mode)
         }
     }
 

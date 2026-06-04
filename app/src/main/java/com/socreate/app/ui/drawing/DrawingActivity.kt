@@ -3,7 +3,9 @@ package com.socreate.app.ui.drawing
 import android.os.Build
 import android.os.Bundle
 import android.view.*
+import android.view.HapticFeedbackConstants
 import android.widget.*
+import android.graphics.drawable.GradientDrawable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.*
 import androidx.lifecycle.lifecycleScope

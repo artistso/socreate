@@ -1,8 +1,24 @@
 package com.socreate.app.engine.renderer
 
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Matrix
+import android.graphics.Paint
 import android.graphics.Paint as AndroidPaint
-import com.socreate.app.core.model.*
+import android.graphics.Path
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
+import android.graphics.RadialGradient
+import android.graphics.RectF
+import android.graphics.Shader
+import com.socreate.app.core.model.BlendMode
+import com.socreate.app.core.model.Bounds
+import com.socreate.app.core.model.Brush
+import com.socreate.app.core.model.BrushProperties
+import com.socreate.app.core.model.BrushTexture
+import com.socreate.app.core.model.SoCreateColor
+import com.socreate.app.core.model.Stroke
 
 /**
  * High-performance stroke renderer.
@@ -15,8 +31,8 @@ class StrokeRenderer {
 
     private val strokePaint = AndroidPaint(AndroidPaint.ANTI_ALIAS_FLAG).apply {
         style = AndroidPaint.Style.STROKE
-        strokeCap = Paint.Cap.ROUND
-        strokeJoin = Paint.Join.ROUND
+        strokeCap = AndroidPaint.Cap.ROUND
+        strokeJoin = AndroidPaint.Join.ROUND
     }
 
     private val dabPaint = AndroidPaint(AndroidPaint.ANTI_ALIAS_FLAG).apply {

@@ -1,7 +1,14 @@
 package com.socreate.app.engine.renderer
 
-import android.graphics.*
-import com.socreate.app.core.model.*
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Path
+import android.graphics.RectF
+import com.socreate.app.core.model.Bounds
+import com.socreate.app.core.model.SmartShape
+import com.socreate.app.core.model.SmartShapeType
+import com.socreate.app.core.model.Stroke
+import com.socreate.app.core.model.StrokePoint
 import kotlin.math.*
 
 /**
@@ -195,7 +202,7 @@ class SmartShapeDetector {
         if (magAB == 0f || magCB == 0f) return 180f
 
         val cosAngle = (dot / (magAB * magCB)).coerceIn(-1.0, 1.0)
-        return Math.toDegrees(acos(cosAngle)).toFloat()
+        return Math.toDegrees(acos(cosAngle.toDouble())).toFloat()
     }
 
     private fun mergeNearbyCorners(corners: List<StrokePoint>): List<StrokePoint> {
