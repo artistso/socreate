@@ -1,0 +1,59 @@
+{
+  "name": "@socreate/app",
+  "version": "2.0.0",
+  "description": "SoCreate - Professional 2D Animation & Drawing App. Floating UI, S Pen support, 13+ brushes, timeline, onion skinning.",
+  "type": "module",
+  "main": "dist/socreate.js",
+  "module": "dist/socreate.mjs",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/socreate.mjs",
+      "require": "./dist/socreate.js"
+    },
+    "./style.css": "./dist/style.css",
+    "./web": "./dist/index.html"
+  },
+  "files": ["dist", "README.md", "LICENSE"],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "build:lib": "vite build --config vite.lib.config.ts",
+    "preview": "vite preview",
+    "package": "npm run build && npm pack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/artistso/socreate.git"
+  },
+  "keywords": ["animation", "drawing", "2d-animation", "digital-art", "canvas", "spen", "samsung", "android", "react", "typescript"],
+  "author": "Steven Michael Allen Owens (@SoQuarky)",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": { "url": "https://github.com/artistso/socreate/issues" },
+  "homepage": "https://artistso.github.io/socreate/",
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^3.4.0",
+    "uuid": "^14.0.0",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.17",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@types/uuid": "^10.0.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "tailwindcss": "^4.1.17",
+    "typescript": "^5.7.0",
+    "vite": "^7.0.0",
+    "vite-plugin-singlefile": "^2.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  }
+}
