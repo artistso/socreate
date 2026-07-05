@@ -3,7 +3,7 @@ import java.util.Properties
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.compose")
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
     id("org.jetbrains.kotlin.plugin.serialization")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
@@ -22,7 +22,7 @@ android {
 
     defaultConfig {
         applicationId = "com.socreate.app"
-        minSdk = 26
+        minSdk = 34
         targetSdk = 35
         versionCode = 3
         versionName = "2.0.0"
