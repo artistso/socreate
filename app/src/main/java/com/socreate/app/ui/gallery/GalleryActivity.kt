@@ -37,7 +37,9 @@ class GalleryActivity : AppCompatActivity() {
 
         btnNewProject.setOnClickListener { openNewProject() }
         btnImport.setOnClickListener { /* TODO: Import */ }
-        btnSettings.setOnClickListener { /* TODO: Settings */ }
+        btnSettings.setOnClickListener {
+            startActivity(Intent(this, com.socreate.app.ui.settings.SettingsActivity::class.java))
+        }
     }
 
     /**

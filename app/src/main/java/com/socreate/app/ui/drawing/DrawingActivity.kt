@@ -7,6 +7,7 @@ import android.view.HapticFeedbackConstants
 import android.widget.*
 import android.graphics.drawable.GradientDrawable
 import androidx.appcompat.app.AppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 import androidx.core.view.*
 import androidx.lifecycle.lifecycleScope
 import com.socreate.app.R
@@ -28,6 +29,7 @@ import kotlinx.coroutines.launch
  *
  * Layout: Full-screen immersive canvas with floating tool panels.
  */
+@AndroidEntryPoint
 class DrawingActivity : AppCompatActivity() {
 
     private lateinit var viewModel: DrawingViewModel
@@ -76,7 +78,7 @@ class DrawingActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_drawing)
 
-        viewModel = DrawingViewModel(application)
+        viewModel = androidx.lifecycle.ViewModelProvider(this)[DrawingViewModel::class.java]
 
         initViews()
         initCanvas(canvasWidth, canvasHeight)

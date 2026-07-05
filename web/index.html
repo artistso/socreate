@@ -1,13 +1,280 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SoCreate — Professional 2D Animation &amp; Drawing</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoCreate — Professional Drawing & Animation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+
+        :root {
+            --accent: #ff6b35;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0f0f0f;
+            color: #e0e0e0;
+            font-family: 'Inter', system-ui, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: #1a1a1a;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #333;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .canvas-container {
+            flex: 1;
+            position: relative;
+            background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        canvas {
+            border: 1px solid #333;
+            background: white;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            touch-action: none;
+        }
+
+        .toolbar {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #1e1e1eeb;
+            backdrop-filter: blur(20px);
+            border: 1px solid #ffffff1a;
+            border-radius: 12px;
+            padding: 8px;
+            display: flex;
+            gap: 4px;
+            z-index: 50;
+        }
+
+        .tool-btn {
+            width: 44px;
+            height: 44px;
+            border: none;
+            background: transparent;
+            color: #e0e0e0;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+
+        .tool-btn:hover {
+            background: #ffffff15;
+        }
+
+        .tool-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .status {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e1e1eeb;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #888;
+            border: 1px solid #ffffff1a;
+        }
+
+        .info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #1e1e1eeb;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            max-width: 260px;
+            border: 1px solid #ffffff1a;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">SoCreate <span>2.0</span></div>
+        <div style="color:#888; font-size:13px;">Samsung Galaxy Tab S10+ • S Pen Ready</div>
+    </div>
+
+    <div class="canvas-container">
+        <canvas id="canvas" width="1200" height="800"></canvas>
+
+        <!-- Floating Toolbar -->
+        <div class="toolbar">
+            <button class="tool-btn active" data-tool="brush" title="Brush">🖌️</button>
+            <button class="tool-btn" data-tool="eraser" title="Eraser">🧽</button>
+            <button class="tool-btn" data-tool="select" title="Select">⬚</button>
+            <button class="tool-btn" data-tool="undo" title="Undo">↩️</button>
+            <button class="tool-btn" data-tool="clear" title="Clear">🗑️</button>
+        </div>
+
+        <div class="info">
+            <strong>SoCreate Web Demo</strong><br>
+            <span style="font-size:12px; color:#666;">This is a lightweight web preview.<br>
+            Full native app available for Tab S10+.</span>
+        </div>
+
+        <div class="status" id="status">Ready • Draw with mouse or touch</div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d', { alpha: true });
+
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+        let currentTool = 'brush';
+        let brushSize = 6;
+        let color = '#222222';
+
+        // Set initial canvas background
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: (e.clientX || e.touches[0].clientX) - rect.left,
+                y: (e.clientY || e.touches[0].clientY) - rect.top
+            };
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            const pos = getPos(e);
+            lastX = pos.x;
+            lastY = pos.y;
+
+            if (currentTool === 'clear') {
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                isDrawing = false;
+                return;
+            }
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+
+            const pos = getPos(e);
+
+            ctx.strokeStyle = currentTool === 'eraser' ? '#ffffff' : color;
+            ctx.lineWidth = brushSize;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+
+            lastX = pos.x;
+            lastY = pos.y;
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        // Mouse events
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+
+        // Touch events (for mobile / Tab S10+)
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            startDrawing(e);
+        });
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            draw(e);
+        });
+        canvas.addEventListener('touchend', stopDrawing);
+
+        // Toolbar
+        document.querySelectorAll('.tool-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const tool = btn.dataset.tool;
+
+                if (tool === 'brush') {
+                    currentTool = 'brush';
+                    brushSize = 6;
+                    color = '#222222';
+                } else if (tool === 'eraser') {
+                    currentTool = 'eraser';
+                    brushSize = 20;
+                } else if (tool === 'undo') {
+                    // Simple undo simulation
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                } else if (tool === 'select') {
+                    currentTool = 'select';
+                } else if (tool === 'clear') {
+                    currentTool = 'clear';
+                }
+
+                document.getElementById('status').textContent =
+                    currentTool === 'eraser' ? 'Eraser active' :
+                    currentTool === 'clear' ? 'Canvas cleared' : 'Drawing...';
+            });
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key.toLowerCase() === 'b') currentTool = 'brush';
+            if (e.key.toLowerCase() === 'e') currentTool = 'eraser';
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+            }
+        });
+
+        // Initial message
+        setTimeout(() => {
+            document.getElementById('status').textContent = 'Ready • Press B for brush, E for eraser';
+        }, 2000);
+
+        console.log('%c[SoCreate] Web demo initialized successfully', 'color:#ff6b35');
+    </script>
+</body>
 </html>
