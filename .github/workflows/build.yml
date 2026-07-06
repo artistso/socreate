@@ -12,7 +12,7 @@ on:
 env:
   JAVA_VERSION: '17'
   ANDROID_API_LEVEL: 35
-  NODE_VERSION: '20'
+  NODE_VERSION: '24'
 
 jobs:
   # ===== WEB BUILD =====
