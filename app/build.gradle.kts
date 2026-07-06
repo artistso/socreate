@@ -3,7 +3,7 @@ import java.util.Properties
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.compose")
+
     id("org.jetbrains.kotlin.plugin.serialization")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
@@ -75,6 +75,9 @@ android {
         compose = true
         buildConfig = true
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.14"
+    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -82,6 +85,7 @@ android {
     }
 
     kotlinOptions {
+        freeCompilerArgs = listOf("-P", "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=1.9.24")
         jvmTarget = "17"
     }
 
@@ -105,6 +109,7 @@ dependencies {
     // Core Android
     implementation("androidx.core:core-ktx:1.15.0")
     implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.activity:activity-compose:1.10.0")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
     
@@ -156,7 +161,7 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:21.3.0")
     
     // FFmpeg for video export
-    implementation("com.arthenica:mobile-ffmpeg-full-gpl:4.4")
+
     
     // Testing
     testImplementation("junit:junit:4.13.2")
