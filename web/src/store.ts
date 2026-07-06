@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
+import { get, set as idbSet } from 'idb-keyval';
 
 // Layer colors for auto-assignment
 const LAYER_COLORS = [
@@ -122,6 +123,7 @@ interface AppState {
   activeProjectId: string | null;
   newProject: () => void;
   loadProject: (id: string) => void;
+  loadProjects: () => void;
   saveCurrentProject: () => void;
 
   // Settings
@@ -160,18 +162,34 @@ const defaultLayer = (): Layer => {
   };
 };
 
-const loadSavedPositions = (): Record<string, FloatingPosition> => {
+const loadSavedPositions = async (): Promise<Record<string, FloatingPosition>> => {
   try {
-    const saved = localStorage.getItem('socreate-positions');
-    if (saved) return JSON.parse(saved);
+    // Attempt migration from localStorage first
+    const legacyPositions = localStorage.getItem('socreate-positions');
+    if (legacyPositions) {
+      const parsed = JSON.parse(legacyPositions);
+      await idbSet('socreate-positions', parsed);
+      localStorage.removeItem('socreate-positions');
+      return parsed;
+    }
+    const saved = await get('socreate-positions');
+    if (saved) return saved;
   } catch {}
   return {};
 };
 
-const loadSavedProjects = (): Project[] => {
+const loadSavedProjects = async (): Promise<Project[]> => {
   try {
-    const saved = localStorage.getItem('socreate-projects');
-    if (saved) return JSON.parse(saved);
+    // Attempt migration from localStorage first
+    const legacyProjects = localStorage.getItem('socreate-projects');
+    if (legacyProjects) {
+      const parsed = JSON.parse(legacyProjects);
+      await idbSet('socreate-projects', parsed);
+      localStorage.removeItem('socreate-projects');
+      return parsed;
+    }
+    const saved = await get('socreate-projects');
+    if (saved) return saved;
   } catch {}
   return [];
 };
@@ -304,20 +322,20 @@ export const useAppStore = create<AppState>((set, get) => ({
     openPanels: { ...s.openPanels, [panelId]: false },
   })),
 
-  floatingPositions: loadSavedPositions(),
+  floatingPositions: {},
   setFloatingPosition: (id, pos) => set((s) => ({
     floatingPositions: { ...s.floatingPositions, [id]: pos },
   })),
   savePositions: () => {
     const positions = get().floatingPositions;
-    localStorage.setItem('socreate-positions', JSON.stringify(positions));
+    idbSet('socreate-positions', positions).catch(console.error);
   },
-  loadPositions: () => {
-    const positions = loadSavedPositions();
+  loadPositions: async () => {
+    const positions = await loadSavedPositions();
     set({ floatingPositions: positions });
   },
 
-  projects: loadSavedProjects(),
+  projects: [],
   activeProjectId: null,
   newProject: () => {
     const state = get();
@@ -346,6 +364,10 @@ export const useAppStore = create<AppState>((set, get) => ({
       });
     }
   },
+  loadProjects: async () => {
+    const projects = await loadSavedProjects();
+    set({ projects });
+  },
   saveCurrentProject: () => {
     const state = get();
     const projectId = state.activeProjectId || uuidv4();
@@ -369,9 +391,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       newProjects = [...state.projects, project];
     }
     set({ projects: newProjects, activeProjectId: projectId });
-    try {
-      localStorage.setItem('socreate-projects', JSON.stringify(newProjects));
-    } catch {}
+    idbSet('socreate-projects', newProjects).catch(console.error);
   },
 
   settings: {

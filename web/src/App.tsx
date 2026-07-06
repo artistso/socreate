@@ -188,6 +188,12 @@ export default function App() {
   const [showHints, setShowHints] = useState(false);
 
   // Close panels when tapping on the canvas background
+  // Initialize async storage values
+  useEffect(() => {
+    useAppStore.getState().loadPositions();
+    useAppStore.getState().loadProjects();
+  }, []);
+
   const handleCanvasClick = useCallback((e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
     if (target.closest('.floating-panel, .floating-btn, .timeline-container')) return;
