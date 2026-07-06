@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
+import { get as idbGet, set as idbSet } from 'idb-keyval';
 
 // Layer colors for auto-assignment
 const LAYER_COLORS = [
@@ -123,6 +124,7 @@ interface AppState {
   newProject: () => void;
   loadProject: (id: string) => void;
   saveCurrentProject: () => void;
+  initProjects: () => Promise<void>;
 
   // Settings
   settings: AppSettings;
@@ -166,14 +168,6 @@ const loadSavedPositions = (): Record<string, FloatingPosition> => {
     if (saved) return JSON.parse(saved);
   } catch {}
   return {};
-};
-
-const loadSavedProjects = (): Project[] => {
-  try {
-    const saved = localStorage.getItem('socreate-projects');
-    if (saved) return JSON.parse(saved);
-  } catch {}
-  return [];
 };
 
 const firstLayer = defaultLayer();
@@ -317,8 +311,34 @@ export const useAppStore = create<AppState>((set, get) => ({
     set({ floatingPositions: positions });
   },
 
-  projects: loadSavedProjects(),
+  projects: [],
   activeProjectId: null,
+  initProjects: async () => {
+    try {
+      // Migrate from localStorage if needed
+      const localStr = localStorage.getItem('socreate-projects');
+      if (localStr) {
+        try {
+          const parsedLocal = JSON.parse(localStr);
+          if (Array.isArray(parsedLocal) && parsedLocal.length > 0) {
+            set({ projects: parsedLocal });
+            await idbSet('socreate-projects', parsedLocal);
+            localStorage.removeItem('socreate-projects');
+            return;
+          }
+        } catch (e) {
+          console.warn('Failed to parse localStorage projects', e);
+        }
+      }
+
+      const savedProjects = await idbGet<Project[]>('socreate-projects');
+      if (savedProjects && Array.isArray(savedProjects)) {
+        set({ projects: savedProjects });
+      }
+    } catch (e) {
+      console.error('Failed to init projects from indexedDB', e);
+    }
+  },
   newProject: () => {
     const state = get();
     if (state.layers.length > 0) {
@@ -369,9 +389,9 @@ export const useAppStore = create<AppState>((set, get) => ({
       newProjects = [...state.projects, project];
     }
     set({ projects: newProjects, activeProjectId: projectId });
-    try {
-      localStorage.setItem('socreate-projects', JSON.stringify(newProjects));
-    } catch {}
+    idbSet('socreate-projects', newProjects).catch((e) => {
+      console.error('Failed to save project to IndexedDB', e);
+    });
   },
 
   settings: {
@@ -398,3 +418,5 @@ export const useAppStore = create<AppState>((set, get) => ({
   canvasWidth: 2800,
   canvasHeight: 1752,
 }));
+
+useAppStore.getState().initProjects();

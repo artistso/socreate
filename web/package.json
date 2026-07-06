@@ -15,7 +15,11 @@
     "./style.css": "./dist/style.css",
     "./web": "./dist/index.html"
   },
-  "files": ["dist", "README.md", "LICENSE"],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -27,15 +31,29 @@
     "type": "git",
     "url": "git+https://github.com/artistso/socreate.git"
   },
-  "keywords": ["animation", "drawing", "2d-animation", "digital-art", "canvas", "spen", "samsung", "android", "react", "typescript"],
+  "keywords": [
+    "animation",
+    "drawing",
+    "2d-animation",
+    "digital-art",
+    "canvas",
+    "spen",
+    "samsung",
+    "android",
+    "react",
+    "typescript"
+  ],
   "author": "Steven Michael Allen Owens (@SoQuarky)",
   "license": "SEE LICENSE IN LICENSE",
-  "bugs": { "url": "https://github.com/artistso/socreate/issues" },
+  "bugs": {
+    "url": "https://github.com/artistso/socreate/issues"
+  },
   "homepage": "https://artistso.github.io/socreate/",
   "dependencies": {
     "clsx": "^2.1.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "idb-keyval": "^6.2.6",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
     "tailwind-merge": "^3.4.0",
     "uuid": "^14.0.0",
     "zustand": "^5.0.14"
