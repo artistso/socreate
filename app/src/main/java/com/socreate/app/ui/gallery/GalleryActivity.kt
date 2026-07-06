@@ -3,6 +3,7 @@ package com.socreate.app.ui.gallery
 import android.content.Intent
 import android.os.Bundle
 import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import com.socreate.app.R
@@ -22,6 +23,12 @@ class GalleryActivity : AppCompatActivity() {
     private lateinit var btnImport: Button
     private lateinit var btnSettings: ImageButton
 
+    private val importLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        if (uri != null) {
+            Toast.makeText(this, "Importing: $uri", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -36,7 +43,7 @@ class GalleryActivity : AppCompatActivity() {
         btnSettings = findViewById(R.id.btnSettings)
 
         btnNewProject.setOnClickListener { openNewProject() }
-        btnImport.setOnClickListener { /* TODO: Import */ }
+        btnImport.setOnClickListener { importLauncher.launch("*/*") }
         btnSettings.setOnClickListener { /* TODO: Settings */ }
     }
 
