@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import com.socreate.app.core.model.*
@@ -274,29 +275,20 @@ fun drawSymmetricStroke(
             
             if (segments > 0) {
                 repeat(segments - 1) { i ->
-                    val angle = ((i + 1) * 360f / segments) * Math.PI.toFloat() / 180f
-                    val rotatedPath = Path().apply {
-                        points.forEach { p ->
-                            val dx = p.x - cx
-                            val dy = p.y - cy
-                            val nx = cx + dx * kotlin.math.cos(angle.toDouble()).toFloat() - 
-                                     dy * kotlin.math.sin(angle.toDouble()).toFloat()
-                            val ny = cy + dx * kotlin.math.sin(angle.toDouble()).toFloat() + 
-                                     dy * kotlin.math.cos(angle.toDouble()).toFloat()
-                            if (this == path) moveTo(nx, ny)
-                            else lineTo(nx, ny)
-                        }
+                    val angleDegrees = (i + 1) * 360f / segments
+
+                    drawScope.rotate(angleDegrees, Offset(cx, cy)) {
+                        drawPath(
+                            path = path,
+                            color = brush.color,
+                            style = androidx.compose.ui.graphics.drawscope.Stroke(
+                                width = brush.size,
+                                cap = StrokeCap.Round,
+                                join = StrokeJoin.Round
+                            ),
+                            alpha = brush.opacity / 100f
+                        )
                     }
-                    drawScope.drawPath(
-                        path = rotatedPath,
-                        color = brush.color,
-                        style = androidx.compose.ui.graphics.drawscope.Stroke(
-                            width = brush.size,
-                            cap = StrokeCap.Round,
-                            join = StrokeJoin.Round
-                        ),
-                        alpha = brush.opacity / 100f
-                    )
                 }
             }
         }

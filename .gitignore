@@ -79,3 +79,5 @@ build/
 # Build cache
 *.tsbuildinfo
 
+kotlinc/
+kotlin-compiler-1.9.23.zip
