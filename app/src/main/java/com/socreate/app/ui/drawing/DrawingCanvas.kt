@@ -28,6 +28,9 @@ fun DrawingCanvas(
     val layers = state.layers
     val activeLayerId = state.activeLayerId
     
+    val layerPaint = remember { Paint() }
+    val onionSkinPaint = remember { Paint() }
+
     Canvas(
         modifier = modifier
             .fillMaxSize()
@@ -68,12 +71,12 @@ fun DrawingCanvas(
             }
     ) {
         // Draw onion skin layers first (behind current)
-        drawOnionSkin(state)
+        drawOnionSkin(state, onionSkinPaint)
         
         // Draw all visible layers
         layers.forEach { layer ->
             if (layer.isVisible) {
-                saveLayer(size.toRect(), Paint().apply { alpha = layer.opacity / 100f })
+                saveLayer(size.toRect(), layerPaint.apply { alpha = layer.opacity / 100f })
                 restore()
             }
         }
@@ -83,14 +86,13 @@ fun DrawingCanvas(
     }
 }
 
-@Composable
-private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawOnionSkin(state: DrawingState) {
+private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawOnionSkin(state: DrawingState, paint: Paint) {
     if (!state.onionSkin.isEnabled) return
     
     // Previous frames in red tint
     val prevAlpha = state.onionSkin.opacity / 100f
     repeat(state.onionSkin.previousFrames) { i ->
-        saveLayer(size.toRect(), Paint().apply {
+        saveLayer(size.toRect(), paint.apply {
             alpha = prevAlpha * (1f - (i + 1f) / (state.onionSkin.previousFrames + 1))
             colorFilter = ColorFilter.tint(state.onionSkin.tintPrevious.copy(alpha = 0.5f))
         })
@@ -99,7 +101,7 @@ private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawOnionSkin(state
     
     // Next frames in blue tint
     repeat(state.onionSkin.nextFrames) { i ->
-        saveLayer(size.toRect(), Paint().apply {
+        saveLayer(size.toRect(), paint.apply {
             alpha = prevAlpha * (1f - (i + 1f) / (state.onionSkin.nextFrames + 1))
             colorFilter = ColorFilter.tint(state.onionSkin.tintNext.copy(alpha = 0.5f))
         })
@@ -107,7 +109,6 @@ private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawOnionSkin(state
     }
 }
 
-@Composable
 private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawSymmetryGuides(state: DrawingState) {
     if (state.symmetry == SymmetryMode.NONE) return
     
