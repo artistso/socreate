@@ -160,13 +160,31 @@ class BrushEngine {
         if (points.isEmpty()) return StrokePoint(0f, 0f)
         if (points.size == 1) return points[0]
 
+        var sumX = 0f
+        var sumY = 0f
+        var sumPressure = 0f
+        var sumTiltX = 0f
+        var sumTiltY = 0f
+        var sumOrientation = 0f
+
+        for (p in points) {
+            sumX += p.x
+            sumY += p.y
+            sumPressure += p.pressure
+            sumTiltX += p.tiltX
+            sumTiltY += p.tiltY
+            sumOrientation += p.orientation
+        }
+
+        val count = points.size.toFloat()
+
         return StrokePoint(
-            x = points.map { it.x }.average().toFloat(),
-            y = points.map { it.y }.average().toFloat(),
-            pressure = points.map { it.pressure }.average().toFloat(),
-            tiltX = points.map { it.tiltX }.average().toFloat(),
-            tiltY = points.map { it.tiltY }.average().toFloat(),
-            orientation = points.map { it.orientation }.average().toFloat()
+            x = sumX / count,
+            y = sumY / count,
+            pressure = sumPressure / count,
+            tiltX = sumTiltX / count,
+            tiltY = sumTiltY / count,
+            orientation = sumOrientation / count
         )
     }
 
